@@ -2,21 +2,15 @@
   <div>
     <base-header class="pr-8 pb-8 pt-5 pt-md-8">
       <!-- Card stats -->
-      <b-form-group class="">
-          <b-input-group class="input-group-alternative input-group-merge">
-            <b-form-input placeholder="Search" type="text"> </b-form-input>
-
-            <div class="input-group-append">
-              <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
-          </b-input-group>
-        </b-form-group>
     </base-header>
     
     <b-container fluid class="mt--7">
+      <div class="pb-3">
+            <Button text="CREATE NEW POST"/>
+        </div>
       <b-row>
         <b-col>
-          <light-table/>
+          <news-table/>
         </b-col>
       </b-row>
       <div class="mt-5"></div>

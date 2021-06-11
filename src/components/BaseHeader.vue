@@ -14,7 +14,7 @@
       type: {
         type: String,
         default: 'success',
-        description: 'Header background type'
+        description: 'background type'
       }
     }
   }

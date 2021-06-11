@@ -4,7 +4,7 @@
     class="navbar-top navbar-expand"
     :class="{'navbar-dark': type === 'default'}"
   >
-    <a href="#" aria-current="page" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block active router-link-active"> {{$route.name}} </a>
+    <a href="#" aria-current="page" class="h4 mb-0 text-black text-uppercase d-none d-lg-inline-block active router-link-active"> {{$route.name}} </a>
     <!-- Navbar links -->
     <b-navbar-nav class="align-items-center ml-md-auto">
       <!-- This item dont have <b-nav-item> because item have data-action/data-target on tag <a>, wich we cant add -->
@@ -18,15 +18,6 @@
         <b-form class="navbar-search form-inline mr-sm-3"
             :class="{'navbar-search-dark': type === 'default', 'navbar-search-light': type === 'light'}"
             id="navbar-search-main">
-        <b-form-group class="mb-0">
-          <b-input-group class="input-group-alternative input-group-merge">
-            <b-form-input placeholder="Search" type="text"> </b-form-input>
-
-            <div class="input-group-append">
-              <span class="input-group-text"><i class="fas fa-search"></i></span>
-            </div>
-          </b-input-group>
-        </b-form-group>
       </b-form>
     </b-navbar-nav>
   </base-nav>
