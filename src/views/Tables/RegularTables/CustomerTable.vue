@@ -116,6 +116,7 @@
 <script>
 import customers from "../customers";
 import { Table, TableColumn } from "element-ui";
+import apis from "../../../api/index";
 export default {
   name: "customer-table",
   components: {
@@ -125,9 +126,22 @@ export default {
   data() {
     return {
       customers,
-      currentPage: 1
+      currentPage: 1,
+      data: ""
     };
+  },
+  method: {
+    fetch () {
+    const fetchData = async () => {
+    const result = await apis.getAllCustumer();
+    // console.log(result.data);
+    return result.data
+  };
+    fetchData().then((value) => {this.data = value})
+    console.log(this.data)
   }
+  }
+  
 };
 </script>
 
