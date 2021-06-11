@@ -1,5 +1,5 @@
 <template>
-  <div class="header" :class="{[`bg-${type}`]: type}">
+  <div class="header head" :class="{[`bg-${type}`]: type}">
      <b-container fluid>
       <div class="header-body">
         <slot></slot>
@@ -13,11 +13,16 @@
     props: {
       type: {
         type: String,
-        default: 'success',
+        default: 'light',
         description: 'background type'
       }
     }
   }
 </script>
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;500&family=Prompt:wght@200;300&display=swap");
+.head{
+    font-family: 'Mitr', sans-serif;
+    font-weight: 200;
+}
 </style>

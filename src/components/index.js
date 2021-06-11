@@ -9,8 +9,6 @@ import BaseButton from './BaseButton.vue';
 import BaseDropdown from './BaseDropdown.vue';
 import BaseTable from './BaseTable.vue';
 
-import Card from './Cards/Card.vue';
-import StatsCard from './Cards/StatsCard.vue';
 import BaseNav from './Navbar/BaseNav';
 import NavbarToggleButton from './Navbar/NavbarToggleButton';
 
@@ -34,8 +32,6 @@ export {
   BasePagination,
   BaseRadio,
   BaseInput,
-  Card,
-  StatsCard,
   BaseTable,
   BaseDropdown,
   SidebarPlugin,
