@@ -4,7 +4,7 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        :data="customers"
+        :data="list"
       >
         <!-- <el-table-column label="ลำดับ" min-width="150px" prop="label">
           <template v-slot="{ row }">
@@ -73,7 +73,7 @@
           </template>
         </el-table-column> -->
 
-        <el-table-column label="Telephone" prop="telephone" min-width="200px">
+        <el-table-column label="Telephone" prop="tel" min-width="200px">
         </el-table-column>
         <el-table-column label="Products" prop="product" min-width="200px">
         </el-table-column>
@@ -89,15 +89,16 @@
         </el-table-column>
         <el-table-column label="Remark" prop="remark" min-width="200px">
         </el-table-column>
-        <el-table-column label="Status" prop="status" min-width="200px">
-          <template v-slot="{ row }">
+        <el-table-column label="Status" prop="contacted" min-width="200px">
+
+          <!-- <template v-slot="{ row }">
             <div class="d-flex align-items-center">
               <span class="completion mr-2">{{ row.completion }}%</span>
               <div>
                 <base-progress :type="row.statusType" :value="row.completion" />
               </div>
             </div>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
         </el-table-column>
@@ -114,9 +115,8 @@
   </div>
 </template>
 <script>
-import customers from "../customers";
+import axios from "axios";
 import { Table, TableColumn } from "element-ui";
-import apis from "../../../api/index";
 export default {
   name: "customer-table",
   components: {
@@ -125,23 +125,13 @@ export default {
   },
   data() {
     return {
-      customers,
       currentPage: 1,
-      data: ""
+      list: []
     };
   },
-  method: {
-    fetch () {
-    const fetchData = async () => {
-    const result = await apis.getAllCustumer();
-    // console.log(result.data);
-    return result.data
-  };
-    fetchData().then((value) => {this.data = value})
-    console.log(this.data)
+  created: function() {
+    axios.get('http://localhost:3000/api/custumers').then((response) => {this.list = response.data})
   }
-  }
-  
 };
 </script>
 

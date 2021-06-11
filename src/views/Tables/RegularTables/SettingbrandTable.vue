@@ -5,11 +5,13 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        :data="brands"
+        :data="list"
       >
         <el-table-column label="ลำดับ" min-width="150px" prop="label">
         </el-table-column>
-        <el-table-column label="Brand" prop="brand" min-width="200px">
+        <el-table-column label="Brand En" prop="brand_name_en" min-width="200px">
+        </el-table-column>
+        <el-table-column label="Brand Ch" prop="brand_name_ch" min-width="200px">
         </el-table-column>
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
             
@@ -27,7 +29,7 @@
   </div>
 </template>
 <script>
-import brands from "./../brands";
+import axios from "axios";
 import { Table, TableColumn } from "element-ui";
 export default {
   name: "settingbrand-table",
@@ -37,9 +39,12 @@ export default {
   },
   data() {
     return {
-      brands,
-      currentPage: 1
+      currentPage: 1,
+      list: []
     };
+  },
+  created: function() {
+    axios.get('http://localhost:3000/api/brands').then((response) => {this.list = response.data})
   }
 };
 </script>
