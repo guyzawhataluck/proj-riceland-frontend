@@ -4,7 +4,7 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        
+        :data="list"
       >
         <!-- <el-table-column label="ลำดับ" min-width="150px" prop="label">
           <template v-slot="{ row }">
