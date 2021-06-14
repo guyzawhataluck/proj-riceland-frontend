@@ -7,7 +7,7 @@
         header-row-class-name="thead-light"
         :data="list"
       >
-        <el-table-column label="ลำดับ" min-width="150px" prop="label">
+        <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
         </el-table-column>
         <el-table-column label="Brand En" prop="brand_name_en" min-width="200px">
         </el-table-column>
@@ -40,11 +40,19 @@ export default {
   data() {
     return {
       currentPage: 1,
-      list: []
+      list: [],
+      intPageSize: 8
     };
   },
   created: function() {
-    axios.get('http://localhost:3000/api/brands').then((response) => {this.list = response.data})
+    axios.get('http://localhost:3000/api/brands').then((response) => {
+      this.list = response.data.data
+    })
+  },
+  methods: {
+    indexMethod(index) {
+        return (this.currentPage - 1) * this.intPageSize + index + 1 
+    }
   }
 };
 </script>

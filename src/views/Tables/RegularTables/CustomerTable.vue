@@ -17,8 +17,14 @@
             </b-media>
           </template>
         </el-table-column> -->
-        <el-table-column label="ลำดับ" min-width="150px" prop="label">
+        <el-table-column
+          label="ลำดับ"
+          :index="indexMethod"
+          type="index"
+          width="100px"
+        >
         </el-table-column>
+
         <el-table-column label="Name" prop="name" min-width="200px">
         </el-table-column>
 
@@ -75,32 +81,45 @@
 
         <el-table-column label="Telephone" prop="tel" min-width="200px">
         </el-table-column>
-        <el-table-column label="Products" prop="product" min-width="200px">
+
+        <el-table-column
+          label="Products"
+          prop="orders.0.product.pd_title_en"
+          min-width="200px"
+        >
+         
         </el-table-column>
-        <el-table-column label="Size" prop="size" min-width="200px">
+
+        <el-table-column label="Size" prop="orders.0.size" min-width="200px">
         </el-table-column>
+
         <el-table-column
           label="Material of Bag"
-          prop="material"
+          prop="orders.0.mat_bag"
           min-width="200px"
         >
         </el-table-column>
+
         <el-table-column label="Destination" prop="dest" min-width="200px">
         </el-table-column>
+
         <el-table-column label="Remark" prop="remark" min-width="200px">
         </el-table-column>
-        <el-table-column label="Status" prop="contacted" min-width="200px">
 
-          <!-- <template v-slot="{ row }">
-            <div class="d-flex align-items-center">
-              <span class="completion mr-2">{{ row.completion }}%</span>
-              <div>
-                <base-progress :type="row.statusType" :value="row.completion" />
-              </div>
-            </div>
-          </template> -->
+        <el-table-column
+          label="Status"
+          prop="contacted"
+          :formatter="statusChecker"
+          min-width="200px"
+        >
         </el-table-column>
-        <el-table-column label="จัดการ" prop="edit" min-width="200px">
+
+        <el-table-column label="จัดการ" prop="edit" min-width="170px" align="center">
+          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editStatus(id)">แก้ไข</button>
+        </el-table-column>
+
+        <el-table-column min-width="170px">
+          <button type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(index)">ลบ</button>
         </el-table-column>
       </el-table>
 
@@ -121,17 +140,39 @@ export default {
   name: "customer-table",
   components: {
     [Table.name]: Table,
-    [TableColumn.name]: TableColumn
+    [TableColumn.name]: TableColumn,
   },
   data() {
     return {
       currentPage: 1,
-      list: []
+      list: [],
+      intPageSize: 10,
     };
   },
-  created: function() {
-    axios.get('http://localhost:3000/api/custumers').then((response) => {this.list = response.data})
-  }
+  created: function () {
+    axios.get("http://localhost:3000/api/customers").then((response) => {
+      this.list = response.data.data;
+      console.log(response.data.data);
+    });
+  },
+  methods: {
+    statusChecker(row, column) {
+      if (row.contacted === true) {
+        return "ติดต่อเรียบร้อย";
+      } else {
+        return "รอดำเนินการ";
+      }
+    },
+    indexMethod(index) {
+      return (this.currentPage - 1) * this.intPageSize + index + 1;
+    },
+    deleteRow(index) {
+      // axios.delete('https://localhost:3000/api/custumers/' + index).then(response => {
+      //   this.list.splice(index, 1)
+      // });
+      this.$store.dispatch("deleteRow", index);
+    },
+  },
 };
 </script>
 
@@ -141,5 +182,31 @@ export default {
   /* font-family: "Mitr", sans-serif; */
   font-family: "Prompt", sans-serif;
   color: black;
+}
+
+#del{
+  color: red;
+  border: 2px solid red;
+  font-weight: 300;
+  transition-duration: 0.4s;
+}
+
+#del:hover {
+  color:white;
+  background-color: red;
+  border: 2px solid red;
+}
+
+#edit{
+  color: gray;
+  border: 2px solid gray;
+  font-weight: 300;
+  transition-duration: 0.4s;
+}
+
+#edit:hover {
+  color:white;
+  background-color: gray;
+  border: 2px solid gray;
 }
 </style>
