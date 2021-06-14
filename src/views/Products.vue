@@ -1,12 +1,12 @@
 <template>
   <div>
-    <base-header class="pr-8 pb-8 pt-2 pt-md-6">
+    <base-header class="pr-8 pb-5 pt-2">
       <!-- Card stats -->
     </base-header>
     
-    <b-container fluid class="mt--7">
+    <b-container fluid class="mt--7 pt-md-8">
       <div class="pb-2">
-            <Button text="ADD PRODUCT"/>
+            <Button text="ADD PRODUCT" :onclick="redirectAddProducts"/>
         </div>
       <b-row>
         <b-col>
@@ -20,8 +20,6 @@
 </template>
 <script>
   import { Dropdown, DropdownItem, DropdownMenu, Table, TableColumn } from 'element-ui';
-  import projects from './Tables/projects'
-  import users from './Tables/users'
   import ProductTable from "./Tables/RegularTables/ProductTable";
   // import DarkTable from "./Tables/RegularTables/DarkTable";
   // import CusList from "./Tables/RegularTables/CusList"
@@ -41,9 +39,12 @@
     },
     data() {
       return {
-        projects,
-        users
       };
+    },
+    methods:{
+      redirectAddProducts(){
+        this.$router.push("/addproducts");
+      }
     }
   };
 </script>

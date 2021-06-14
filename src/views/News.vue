@@ -1,12 +1,12 @@
 <template>
   <div>
-    <base-header class="pr-8 pb-8 pt-5 pt-md-8">
+    <base-header class="pr-8 pb-5 pt-2">
       <!-- Card stats -->
     </base-header>
     
-    <b-container fluid class="mt--7">
+    <b-container fluid class="mt--7 pt-md-8">
       <div class="pb-3">
-            <Button text="CREATE NEW POST"/>
+            <Button text="CREATE NEW POST"  :onclick="redirectCreatePost"/>
         </div>
       <b-row>
         <b-col>
@@ -20,8 +20,6 @@
 </template>
 <script>
   import { Dropdown, DropdownItem, DropdownMenu, Table, TableColumn } from 'element-ui';
-  import projects from './Tables/projects'
-  import users from './Tables/users'
   import NewsTable from "./Tables/RegularTables/NewsTable";
   // import DarkTable from "./Tables/RegularTables/DarkTable";
   // import CusList from "./Tables/RegularTables/CusList"
@@ -41,9 +39,13 @@
     },
     data() {
       return {
-        projects,
-        users
+
       };
+    },
+    methods:{
+      redirectCreatePost(){
+        this.$router.push("/newspost");
+      }
     }
   };
 </script>

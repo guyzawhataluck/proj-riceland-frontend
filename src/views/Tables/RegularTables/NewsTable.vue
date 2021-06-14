@@ -5,7 +5,6 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        :data="brands"
       >
         <el-table-column label="ลำดับ" min-width="150px" prop="label">
         </el-table-column>
@@ -36,7 +35,7 @@
   </div>
 </template>
 <script>
-import brands from "./../brands";
+
 import { Table, TableColumn } from "element-ui";
 export default {
   name: "news-table",
@@ -46,7 +45,7 @@ export default {
   },
   data() {
     return {
-      brands,
+
       currentPage: 1
     };
   }

@@ -4,7 +4,7 @@
     class="navbar-top navbar-expand"
     :class="{'navbar-dark': type === 'default'}"
   >
-    <a href="#" aria-current="page" class="h4 mb-0 text-black text-uppercase d-none d-lg-inline-block active router-link-active"> {{$route.name}} </a>
+    <a href="#" aria-current="page" class="h4 mb-0 text-dark text-uppercase d-none d-lg-inline-block active router-link-active"> {{$route.name}} </a>
     <!-- Navbar links -->
     <b-navbar-nav class="align-items-center ml-md-auto">
       <!-- This item dont have <b-nav-item> because item have data-action/data-target on tag <a>, wich we cant add -->
@@ -66,3 +66,12 @@ export default {
   }
 };
 </script>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Mitr:wght@300;500&family=Prompt:wght@200;300&display=swap");
+.h4{
+  font-family: 'Mitr', sans-serif;
+  font-size: 18px;
+  font-weight:200;
+}
+</style>

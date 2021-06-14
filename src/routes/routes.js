@@ -25,10 +25,22 @@ const routes = [
           import(/* webpackChunkName: "demo" */ "../views/Products.vue")
       },
       {
+        path: "/addproducts",
+        name: "Add Product",
+        component: () =>
+          import(/* webpackChunkName: "demo" */ "../views/Redirectpage/AddProducts.vue")
+      },
+      {
         path: "/relatedproducts",
         name: "Our Related Products",
         component: () =>
           import(/* webpackChunkName: "demo" */ "../views/RelatedProduct.vue")
+      },
+      {
+        path: "/addrelatedproducts",
+        name: "Add Our Related Product",
+        component: () =>
+          import(/* webpackChunkName: "demo" */ "../views/Redirectpage/AddRelatedProducts.vue")
       },
       {
         path: "/brands",
@@ -39,17 +51,41 @@ const routes = [
           )
       },
       {
+        path: "/addourbrands",
+        name: "Add Our Brands",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/AddOurBrands.vue"
+          )
+      },
+      {
         path: "/settingbrands",
         name: "Setting Brands",
         component: () =>
           import(/* webpackChunkName: "demo" */ "../views/SettingBrands.vue")
       },
       {
+        path: "/addbrands",
+        name: "Add Brand",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/AddBrands.vue"
+          )
+      },
+      {
         path: "/news",
         name: "News & CSR",
         component: () =>
           import(/* webpackChunkName: "demo" */ "../views/News.vue")
-      }
+      },
+      {
+        path: "/newspost",
+        name: "Create New Post",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/NewPost.vue"
+          )
+      },
     ]
   },
   {

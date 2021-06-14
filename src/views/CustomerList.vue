@@ -1,11 +1,10 @@
 <template>
   <div>
-    <base-header class="pr-8 pb-8 pt-2 pt-md-6">
+    <base-header class="pr-8 pb-5 pt-2">
       <!-- Card stats -->
-
     </base-header>
     
-    <b-container fluid class="mt--7">
+    <b-container fluid class="mt--7 pt-md-8">
       <div class="pb-2">
         <b-form-group>
           <b-input-group class="input-group-alternative input-group-merge">
@@ -29,8 +28,6 @@
 </template>
 <script>
   import { Dropdown, DropdownItem, DropdownMenu, Table, TableColumn } from 'element-ui';
-  import projects from './Tables/projects'
-  import users from './Tables/users'
   import CustomerTable from "./Tables/RegularTables/CustomerTable";
 //   import DarkTable from "./Tables/RegularTables/DarkTable";
 //   import CusList from "./Tables/RegularTables/CusList"
@@ -50,8 +47,6 @@
     },
     data() {
       return {
-        projects,
-        users
       };
     }
   };
