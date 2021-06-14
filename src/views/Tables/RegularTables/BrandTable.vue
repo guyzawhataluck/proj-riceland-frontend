@@ -5,19 +5,26 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
+        :data="list"
       >
         <el-table-column label="ลำดับ" min-width="150px" prop="label">
         </el-table-column>
-        <el-table-column label="Brand" prop="brand" min-width="200px">
+        <el-table-column label="Brand En" prop="brand.brand_name_en" min-width="200px">
+        </el-table-column>
+        <el-table-column label="Brand Ch" prop="brand.brand_name_ch" min-width="200px">
         </el-table-column>
 
-        <el-table-column label="Image" min-width="200px" prop="image">
+        <el-table-column label="Image" min-width="200px" prop="pd_img_url">
           
         </el-table-column>
 
-        <el-table-column label="Title" prop="title" min-width="200px">
+        <el-table-column label="Title En" prop="pd_title_en" min-width="200px">
         </el-table-column>
-        <el-table-column label="Content" prop="content" min-width="200px">
+        <el-table-column label="Title Ch" prop="pd_title_ch" min-width="200px">
+        </el-table-column>
+        <el-table-column label="Content En" prop="pd_content_en" min-width="200px">
+        </el-table-column>
+        <el-table-column label="Content Ch" prop="pd_content_ch" min-width="200px">
         </el-table-column>
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
         </el-table-column>
@@ -34,6 +41,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import { Table, TableColumn } from "element-ui";
 export default {
   name: "brand-table",
@@ -43,8 +51,13 @@ export default {
   },
   data() {
     return {
-      currentPage: 1
+      currentPage: 1,
+      currentPage: 1,
+      list: []
     };
+  },
+  created: function() {
+    axios.get('http://localhost:3000/api/brandProducts').then((response) => {this.list = response.data})
   }
 };
 </script>

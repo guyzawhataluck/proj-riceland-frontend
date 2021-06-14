@@ -4,6 +4,7 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
+        
       >
         <el-table-column label="ลำดับ" min-width="150px" prop="label">
         </el-table-column>
@@ -13,7 +14,55 @@
         <el-table-column label="Email" min-width="200px" prop="email">
         </el-table-column>
 
-        <el-table-column label="Telephone" prop="telephone" min-width="200px">
+        <!-- <el-table-column label="Users" min-width="190px">
+          <div class="avatar-group">
+            <a
+              href="#"
+              class="avatar avatar-sm rounded-circle"
+              data-toggle="tooltip"
+              data-original-title="Ryan Tompson"
+            >
+              <img alt="Image placeholder" src="img/theme/team-1.jpg" />
+            </a>
+            <a
+              href="#"
+              class="avatar avatar-sm rounded-circle"
+              data-toggle="tooltip"
+              data-original-title="Romina Hadid"
+            >
+              <img alt="Image placeholder" src="img/theme/team-2.jpg" />
+            </a>
+            <a
+              href="#"
+              class="avatar avatar-sm rounded-circle"
+              data-toggle="tooltip"
+              data-original-title="Alexander Smith"
+            >
+              <img alt="Image placeholder" src="img/theme/team-3.jpg" />
+            </a>
+            <a
+              href="#"
+              class="avatar avatar-sm rounded-circle"
+              data-toggle="tooltip"
+              data-original-title="Jessica Doe"
+            >
+              <img alt="Image placeholder" src="img/theme/team-4.jpg" />
+            </a>
+          </div>
+        </el-table-column> -->
+
+        <!-- <el-table-column label="Completion" prop="completion" min-width="240px">
+          <template v-slot="{ row }">
+            <div class="d-flex align-items-center">
+              <span class="completion mr-2">{{ row.completion }}%</span>
+              <div>
+                <base-progress :type="row.statusType" :value="row.completion" />
+              </div>
+            </div>
+          </template>
+        </el-table-column> -->
+
+        <el-table-column label="Telephone" prop="tel" min-width="200px">
         </el-table-column>
         <el-table-column label="Products" prop="product" min-width="200px">
         </el-table-column>
@@ -29,15 +78,15 @@
         </el-table-column>
         <el-table-column label="Remark" prop="remark" min-width="200px">
         </el-table-column>
-        <el-table-column label="Status" prop="status" min-width="200px">
-          <template v-slot="{ row }">
+        <el-table-column label="Status" prop="contacted" min-width="200px">
+          <!-- <template v-slot="{ row }">
             <div class="d-flex align-items-center">
               <span class="completion mr-2">{{ row.completion }}%</span>
               <div>
                 <base-progress :type="row.statusType" :value="row.completion" />
               </div>
             </div>
-          </template>
+          </template> -->
         </el-table-column>
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
         </el-table-column>
@@ -55,6 +104,7 @@
 </template>
 <script>
 // import axios from 'axios'
+import axios from "axios";
 import { Table, TableColumn } from "element-ui";
 export default {
   name: "customer-table",
@@ -64,10 +114,17 @@ export default {
   },
   data() {
     return {
-      currentPage: 1
-    };
-  },
-};
+      currentPage: 1,
+      currentPage: 1,
+      list: []
+    }
+  }
+  //   created: 
+  //   function() {
+  //   axios.get('http://localhost:3000/api/custumers').then((response) => {this.list = response.data})
+  // }
+}
+  
 </script>
 
 <style scoped>
