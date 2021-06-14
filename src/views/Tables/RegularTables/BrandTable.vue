@@ -7,15 +7,17 @@
         header-row-class-name="thead-light"
         :data="list"
       >
-        <el-table-column label="ลำดับ" min-width="150px" prop="label">
+        <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
         </el-table-column>
         <el-table-column label="Brand En" prop="brand.brand_name_en" min-width="200px">
         </el-table-column>
         <el-table-column label="Brand Ch" prop="brand.brand_name_ch" min-width="200px">
         </el-table-column>
 
-        <el-table-column label="Image" min-width="200px" prop="pd_img_url">
-          
+        <el-table-column label="Image" min-width="250px" prop="pd_img_url">
+          <template slot-scope="scope">
+            <img :src="scope.row.pd_img_url" width="200px" height="200px"/>
+          </template>
         </el-table-column>
 
         <el-table-column label="Title En" prop="pd_title_en" min-width="200px">
@@ -52,12 +54,19 @@ export default {
   data() {
     return {
       currentPage: 1,
-      currentPage: 1,
-      list: []
+      list: [],
+      intPageSize: 8
     };
   },
   created: function() {
-    axios.get('http://localhost:3000/api/brandProducts').then((response) => {this.list = response.data})
+    axios.get('http://localhost:3000/api/brandProducts').then((response) => {
+      this.list = response.data.data
+    })
+  },
+  methods: {
+    indexMethod(index) {
+        return (this.currentPage - 1) * this.intPageSize + index + 1 
+    }
   }
 };
 </script>

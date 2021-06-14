@@ -8,7 +8,7 @@
                 <img src="@/assets/adminlogo.svg" class="navbar-brand-img" alt="...">
             </router-link>
       <div class="text-center pt-3">
-        ADMIN01
+        ADMIN 01
       </div>
       <template slot="links" class="dark">
         <sidebar-item
