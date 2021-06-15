@@ -86,6 +86,22 @@ const routes = [
             /* webpackChunkName: "demo" */ "../views/Redirectpage/NewPost.vue"
           )
       },
+      {
+        path: "/editNewspost/:id",
+        name: "Edit News",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/EditNews.vue"
+          )
+      },
+      {
+        path: "/editBrand/:id",
+        name: "Edit Brand",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/EditBrands.vue"
+          )
+      },
     ]
   },
   {

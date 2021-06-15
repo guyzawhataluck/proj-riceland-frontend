@@ -49,10 +49,20 @@ export default {
         height: "100%",
       },
       body: {
-        brand_name_en: "",
-        brand_name_ch: ""
+        brand_name_en: `hhhh`,
+        brand_name_ch: "ffffff"
       }
     };
+  },
+  created: function() {
+    var currentUrl = window.location.pathname;
+    console.log(currentUrl)
+    let params = (new URL(currentUrl)).searchParams;
+    params.get('id')
+    console.log(params)
+    axios.get("http://localhost:3000/api/customers").then(response => {
+      this.list = response.data.data;
+    });
   },
   methods: {
     async submitForm() {

@@ -5,7 +5,7 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        :data="list"
+        :data="pagedTableData"
       >
         <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
         </el-table-column>
@@ -32,15 +32,20 @@
         </el-table-column>
 
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
+          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editNews(id)">แก้ไข</button>
         </el-table-column>
 
+        <el-table-column min-width="170px">
+          <button type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(index)">ลบ</button>
+        </el-table-column>
       </el-table>
 
       <b-card-footer class="py-4 d-flex justify-content-end">
         <base-pagination
           v-model="currentPage"
-          :per-page="10"
-          :total="50"
+          @change="setPage"
+          :per-page="perPage"
+          :total="rows"
         ></base-pagination>
       </b-card-footer>
     </b-card>
@@ -58,8 +63,9 @@ export default {
   data() {
     return {
       currentPage: 1,
+      perPage: 5,
       list: [],
-      intPageSize: 8
+      intPageSize: 5
     };
   },
   created: function() {
@@ -70,8 +76,22 @@ export default {
   methods: {
     indexMethod(index) {
         return (this.currentPage - 1) * this.intPageSize + index + 1 
+    },
+    setPage (val) {
+        this.currentPage = val
+        
+      }
+  },
+  computed: {
+      rows() {
+        
+        return this.list.length
+      },
+      pagedTableData() {
+        
+       return this.list.slice(this.perPage * this.currentPage - this.perPage, this.perPage * this.currentPage)
+     }
     }
-  }
 };
 </script>
 
@@ -80,5 +100,30 @@ export default {
 #table {
   /* font-family: "Mitr", sans-serif; */
   font-family: "Prompt", sans-serif;
+}
+#del{
+  color: red;
+  border: 2px solid red;
+  font-weight: 300;
+  transition-duration: 0.4s;
+}
+
+#del:hover {
+  color:white;
+  background-color: red;
+  border: 2px solid red;
+}
+
+#edit{
+  color: gray;
+  border: 2px solid gray;
+  font-weight: 300;
+  transition-duration: 0.4s;
+}
+
+#edit:hover {
+  color:white;
+  background-color: gray;
+  border: 2px solid gray;
 }
 </style>

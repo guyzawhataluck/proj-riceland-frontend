@@ -4,7 +4,7 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        :data="list"
+        :data="pagedTableData"
       >
         <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
         </el-table-column>
@@ -38,8 +38,9 @@
       <b-card-footer class="py-4 d-flex justify-content-end">
         <base-pagination
           v-model="currentPage"
-          :per-page="8"
-          :total="50"
+          @change="setPage"
+          :per-page="perPage"
+          :total="rows"
         ></base-pagination>
       </b-card-footer>
     </b-card>
@@ -57,8 +58,9 @@ export default {
   data() {
     return {
       currentPage: 1,
+      perPage: 5,
       list: [],
-      intPageSize: 8
+      intPageSize: 5
     };
   },
   created: function () {
@@ -69,8 +71,22 @@ export default {
   methods: {
     indexMethod(index) {
         return (this.currentPage - 1) * this.intPageSize + index + 1 
+    },
+    setPage (val) {
+        this.currentPage = val
+        
+      }
+  },
+  computed: {
+      rows() {
+        
+        return this.list.length
+      },
+      pagedTableData() {
+        
+       return this.list.slice(this.perPage * this.currentPage - this.perPage, this.perPage * this.currentPage)
+     }
     }
-  }
 };
 </script>
 

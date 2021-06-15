@@ -7,24 +7,18 @@
       <form class="container py-6">
         <div class="form-group image-upload text-center">
           <label for="file-input">
-            <img class="img" src="./img/addproduct.png" />
+            <img class="img"
+              src="./img/addpostprofile.png"
+            />
           </label>
 
           <input id="file-input" type="file" />
         </div>
         <div class="form-group text-light">
-          <label for="brandSelection">BRAND</label>
-          <select
-            class="form-control"
-            style="border-radius: 16px"
-            id="brandSelection"
-          >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
+          <label>CHOOSE DATE</label>
+          <div>
+            <date-picker v-model="time1" valueType="format"></date-picker>
+          </div>
         </div>
         <div class="form-group text-light">
           <label>ADD TITLE (EN)</label>
@@ -33,7 +27,7 @@
             class="form-control"
             id="productstitle"
             aria-describedby="product"
-            placeholder="Add title"
+            placeholder="Add Title"
           />
         </div>
         <div class="form-group text-light">
@@ -43,7 +37,7 @@
             class="form-control"
             id="productstitle"
             aria-describedby="product"
-            placeholder="Add title"
+            placeholder="Add Title"
           />
         </div>
         <div class="form-group text-light">
@@ -52,7 +46,7 @@
             class="form-control"
             id="x"
             rows="6"
-            placeholder="Add content"
+            placeholder="Add Content"
           ></textarea>
         </div>
         <div class="form-group text-light">
@@ -61,9 +55,10 @@
             class="form-control"
             id="x"
             rows="6"
-            placeholder="Add content"
+            placeholder="Add Content"
           ></textarea>
         </div>
+
         <div class="text-right">
           <button type="cancel" class="btn btn-outline-white">CANCEL</button>
           <button type="submit" class="btn btn-gold">PUBLISH</button>
@@ -73,6 +68,9 @@
   </div>
 </template>
 <script>
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+
 export default {
   data() {
     return {
@@ -80,6 +78,13 @@ export default {
         backgroundColor: "#0F1F1E",
         height: "100%",
       },
+      value: "",
+    };
+  },
+  components: {DatePicker},
+  data() {
+    return {
+      time1: null,
     };
   },
 };
@@ -101,17 +106,17 @@ export default {
 .image-upload > input {
   display: none;
 }
-.img {
-  height: 505px;
-  width: 505px;
+.img{
+    height:505px;
+    width: 505px;
 }
-.container {
-  width: 545px;
+.container{
+    width: 545px;
 }
-.form-group > input {
-  border-radius: 16px;
+.form-group > input{
+    border-radius: 16px;
 }
-.btn {
-  border-radius: 16px;
+.btn{
+    border-radius: 16px;
 }
 </style>

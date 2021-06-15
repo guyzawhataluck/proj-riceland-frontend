@@ -1,22 +1,13 @@
 <template>
-  <div id="table">
+  <div class="overflow-auto" id="table">
     <b-card no-body>
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        :data="list"
+        :data="pagedTableData"
+        id="my-table"
       >
-        <!-- <el-table-column label="ลำดับ" min-width="150px" prop="label">
-          <template v-slot="{ row }">
-            <b-media no-body class="align-items-center">
-              <b-media-body>
-                <span class="font-weight-600 name mb-0 text-sm">{{
-                  row.title
-                }}</span>
-              </b-media-body>
-            </b-media>
-          </template>
-        </el-table-column> -->
+
         <el-table-column
           label="ลำดับ"
           :index="indexMethod"
@@ -31,71 +22,30 @@
         <el-table-column label="Email" min-width="200px" prop="email">
         </el-table-column>
 
-        <!-- <el-table-column label="Users" min-width="190px">
-          <div class="avatar-group">
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Ryan Tompson"
-            >
-              <img alt="Image placeholder" src="img/theme/team-1.jpg" />
-            </a>
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Romina Hadid"
-            >
-              <img alt="Image placeholder" src="img/theme/team-2.jpg" />
-            </a>
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Alexander Smith"
-            >
-              <img alt="Image placeholder" src="img/theme/team-3.jpg" />
-            </a>
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Jessica Doe"
-            >
-              <img alt="Image placeholder" src="img/theme/team-4.jpg" />
-            </a>
-          </div>
-        </el-table-column> -->
-
-        <!-- <el-table-column label="Completion" prop="completion" min-width="240px">
-          <template v-slot="{ row }">
-            <div class="d-flex align-items-center">
-              <span class="completion mr-2">{{ row.completion }}%</span>
-              <div>
-                <base-progress :type="row.statusType" :value="row.completion" />
-              </div>
-            </div>
-          </template>
-        </el-table-column> -->
-
         <el-table-column label="Telephone" prop="tel" min-width="200px">
         </el-table-column>
 
         <el-table-column
           label="Products"
-          prop="orders.0.product.pd_title_en"
-          min-width="200px"
+          min-width="180px"
+          prop="orders"
+          :formatter="displayProductName"
         >
-         
+
         </el-table-column>
 
-        <el-table-column label="Size" prop="orders.0.size" min-width="200px">
+        <el-table-column
+          label="Size"
+          prop="orders"
+          :formatter="displaySize"
+          min-width="200px"
+        >
         </el-table-column>
 
         <el-table-column
           label="Material of Bag"
-          prop="orders.0.mat_bag"
+          prop="orders"
+          :formatter="displayMatBag"
           min-width="200px"
         >
         </el-table-column>
@@ -114,20 +64,39 @@
         >
         </el-table-column>
 
-        <el-table-column label="จัดการ" prop="edit" min-width="170px" align="center">
-          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editStatus(id)">แก้ไข</button>
+        <el-table-column
+          label="จัดการ"
+          prop="edit"
+          min-width="190px"
+          align="center"
+        >
+          <template v-slot="{ row }">
+            <button
+              type="button" class="btn" id="edit" data-toggle="modal" @click="editStatus(row.id)"
+            >
+              แก้ไขสถานะ
+            </button>
+          </template>
         </el-table-column>
 
         <el-table-column min-width="170px">
-          <button type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(index)">ลบ</button>
+          <template v-slot="{ row }">
+            <button
+              type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(row.id)"
+            >
+              ลบ
+            </button>
+          </template>
         </el-table-column>
       </el-table>
 
       <b-card-footer class="py-4 d-flex justify-content-end">
         <base-pagination
           v-model="currentPage"
-          :per-page="10"
-          :total="50"
+          @change="setPage"
+          :per-page="perPage"
+          :total="rows"
+          aria-controls="my-table"
         ></base-pagination>
       </b-card-footer>
     </b-card>
@@ -141,19 +110,19 @@ export default {
   name: "customer-table",
   components: {
     [Table.name]: Table,
-    [TableColumn.name]: TableColumn,
+    [TableColumn.name]: TableColumn
   },
   data() {
     return {
+      perPage: 8,
       currentPage: 1,
       list: [],
-      intPageSize: 10,
+      intPageSize: 8
     };
   },
-  created: function () {
-    axios.get("http://localhost:3000/api/customers").then((response) => {
+  created: function() {
+    axios.get("http://localhost:3000/api/customers").then(response => {
       this.list = response.data.data;
-      console.log(response.data.data);
     });
   },
   methods: {
@@ -167,13 +136,81 @@ export default {
     indexMethod(index) {
       return (this.currentPage - 1) * this.intPageSize + index + 1;
     },
-    deleteRow(index) {
-      // axios.delete('https://localhost:3000/api/custumers/' + index).then(response => {
-      //   this.list.splice(index, 1)
-      // });
-      this.$store.dispatch("deleteRow", index);
+    re() {
+      axios.get("http://localhost:3000/api/customers").then((response) => {
+        this.list = response.data.data;
+      });
     },
+     deleteRow(id) {
+      if(confirm('Are you sure you want to delete this item?')){
+        axios
+          .delete(`http://localhost:3000/api/customers/${id}`)
+          .then((response) => {
+            this.list.splice(id, 1),
+            this.re();
+        });
+      }
+    },
+    async editStatus(id) {
+      await axios
+          .post(`http://localhost:3000/api/customers/${id}`)
+          .then((response) => {
+            this.contacted = !response.data.data.contacted,
+            this.re();
+      });
+    },
+    displayProductName(row) {
+      const productName = [];
+      const order = row.orders;
+      // console.log(row.orders);
+      if (order.length > 0) {
+        for (let i = 0; i < order.length; i++) {
+          // console.log(order[i].product);
+          // console.log(i);
+          // console.log(i.product);
+          const name = order[i].product.pd_title_en;
+          productName.push(name);
+        }
+        return productName.toString();
+      }
+    },
+    displayMatBag(row) {
+      const MatBag = [];
+      const order = row.orders;
+
+      if (order.length > 0) {
+        for (let i = 0; i < order.length; i++) {
+          const matbag = order[i].mat_bag;
+          MatBag.push(matbag);
+        }
+        return MatBag.toString();
+      }
+    },
+    displaySize(row) {
+      const Size = [];
+      const order = row.orders;
+      if (order.length > 0) {
+        for (let i = 0; i < order.length; i++) {
+          const size = order[i].size;
+          Size.push(size);
+        }
+        return Size.toString();
+      }
+    },
+    setPage (val) {
+        this.currentPage = val
+        
+      }
   },
+  computed: {
+      rows() {
+        
+        return this.list.length
+      },
+      pagedTableData() {
+       return this.list.slice(this.perPage * this.currentPage - this.perPage, this.perPage * this.currentPage)
+     }
+    }
 };
 </script>
 
@@ -185,7 +222,7 @@ export default {
   color: black;
 }
 
-#del{
+#del {
   color: red;
   border: 2px solid red;
   font-weight: 300;
@@ -193,12 +230,12 @@ export default {
 }
 
 #del:hover {
-  color:white;
+  color: white;
   background-color: red;
   border: 2px solid red;
 }
 
-#edit{
+#edit {
   color: gray;
   border: 2px solid gray;
   font-weight: 300;
@@ -206,7 +243,7 @@ export default {
 }
 
 #edit:hover {
-  color:white;
+  color: white;
   background-color: gray;
   border: 2px solid gray;
 }
