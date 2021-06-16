@@ -8,24 +8,6 @@
             </navbar-toggle-button>
             
 
-<!-- Profile option -->
-
-            <!-- <slot name="mobile-right">
-                <ul class="nav align-items-center d-md-none">
-                    <base-dropdown class="nav-item" menu-on-right tag="li" title-tag="a">
-                        <a slot="title-container" class="nav-link nav-link-icon" href="#" role="button"
-                           aria-haspopup="true" aria-expanded="false">
-                            <i class="ni ni-bell-55"></i>
-                        </a>
-
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </base-dropdown>
-                </ul>
-            </slot> -->
-
 <!-- Sidebar -->
 
             <slot></slot>
@@ -64,8 +46,8 @@
     },
     props: {
       logo: {
-        type: String,
-        default: 'img/brand/green.png',
+        type: Image,
+        default: '@/assets/adminlogo.svg',
         description: 'Sidebar app logo'
       },
       autoClose: {

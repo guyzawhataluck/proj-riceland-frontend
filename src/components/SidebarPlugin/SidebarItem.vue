@@ -194,7 +194,7 @@ export default {
 .sidebar-menu-item {
   cursor: pointer;
 }
-// .nav-item:hover {
-//   background-color: #F1DAAD;
-// }
+.nav-item:hover {
+  color: black;
+}
 </style>

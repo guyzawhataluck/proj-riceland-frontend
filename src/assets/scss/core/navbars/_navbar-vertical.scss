@@ -115,11 +115,12 @@
             transition: $transition-base;
         } // Expanded
         &[aria-expanded="true"] {
+            color:black;
             
 
             &:after {
                 transform: rotate(90deg);
-                color:white;
+                color:black;
                 
             }
         }

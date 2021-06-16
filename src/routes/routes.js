@@ -1,9 +1,29 @@
 import DashboardLayout from "@/views/Layout/DashboardLayout.vue";
 import AuthLayout from "@/views/Pages/AuthLayout.vue";
 
-import NotFound from "@/views/NotFoundPage.vue";
+// import NotFound from "@/views/NotFoundPage.vue";
 
 const routes = [
+  {
+    path: "/",
+    redirect: {name: 'login'},
+    component: AuthLayout,
+    children: [
+      {
+        path: "/login",
+        name: "login",
+        component: () =>
+          import(/* webpackChunkName: "demo" */ "../views/Login.vue")
+      },
+      // {
+      //   path: "/logout",
+      //   name: "LOGOUT",
+      //   component: () =>
+      //     import(/* webpackChunkName: "demo" */ "../views/Pages/Login.vue")
+      // },
+      // { path: "*", component: NotFound }
+    ]
+  },
   {
     path: "/",
     redirect: { name: 'customer lists' },
@@ -88,26 +108,7 @@ const routes = [
       },
     ]
   },
-  {
-    path: "/",
-    redirect: "login",
-    component: AuthLayout,
-    children: [
-      {
-        path: "/login",
-        name: "login",
-        component: () =>
-          import(/* webpackChunkName: "demo" */ "../views/Pages/Login.vue")
-      },
-      {
-        path: "/register",
-        name: "register",
-        component: () =>
-          import(/* webpackChunkName: "demo" */ "../views/Pages/Register.vue")
-      },
-      { path: "*", component: NotFound }
-    ]
-  }
+  
 ];
 
 export default routes;

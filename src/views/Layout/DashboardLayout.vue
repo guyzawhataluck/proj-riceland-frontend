@@ -55,15 +55,8 @@
 
         <sidebar-item
           :link="{
-            name: 'Login',
+            name: 'LOGOUT',
             path: '/login'
-          }"
-        >
-        </sidebar-item>
-        <sidebar-item
-          :link="{
-            name: 'Register',
-            path: '/register'
           }"
         >
         </sidebar-item>

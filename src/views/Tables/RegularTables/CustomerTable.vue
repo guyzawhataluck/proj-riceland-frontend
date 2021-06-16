@@ -14,54 +14,6 @@
         <el-table-column label="Email" min-width="200px" prop="email">
         </el-table-column>
 
-        <!-- <el-table-column label="Users" min-width="190px">
-          <div class="avatar-group">
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Ryan Tompson"
-            >
-              <img alt="Image placeholder" src="img/theme/team-1.jpg" />
-            </a>
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Romina Hadid"
-            >
-              <img alt="Image placeholder" src="img/theme/team-2.jpg" />
-            </a>
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Alexander Smith"
-            >
-              <img alt="Image placeholder" src="img/theme/team-3.jpg" />
-            </a>
-            <a
-              href="#"
-              class="avatar avatar-sm rounded-circle"
-              data-toggle="tooltip"
-              data-original-title="Jessica Doe"
-            >
-              <img alt="Image placeholder" src="img/theme/team-4.jpg" />
-            </a>
-          </div>
-        </el-table-column> -->
-
-        <!-- <el-table-column label="Completion" prop="completion" min-width="240px">
-          <template v-slot="{ row }">
-            <div class="d-flex align-items-center">
-              <span class="completion mr-2">{{ row.completion }}%</span>
-              <div>
-                <base-progress :type="row.statusType" :value="row.completion" />
-              </div>
-            </div>
-          </template>
-        </el-table-column> -->
-
         <el-table-column label="Telephone" prop="tel" min-width="200px">
         </el-table-column>
         <el-table-column label="Products" prop="product" min-width="200px">
