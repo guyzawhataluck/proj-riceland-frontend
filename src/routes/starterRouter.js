@@ -10,12 +10,12 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      redirect: '/dashboard',
-      component: DashboardLayout,
+      redirect: '/login',
+      component: AuthLayout,
       children: [
         {
-          path: 'dashboard',
-          name: 'dashboard',
+          path: 'login',
+          name: 'login',
           components: { default: Starter }
         }
       ]
