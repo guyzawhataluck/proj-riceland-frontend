@@ -4,15 +4,16 @@
       <!-- Card stats -->
     </base-header>
     <div style="myStyle" id="wrapper">
-      <form class="container py-6">
+      <form class="container py-6" v-on:submit.prevent="submitForm">
         <div class="form-group text-light">
           <label>BRAND (EN)</label>
           <input
             type="title"
             class="form-control"
-            id="productstitle"
+            id="brand_name_en"
             aria-describedby="product"
             placeholder="Add Title"
+            v-model="body.brand_name_en"
           />
         </div>
         <div class="form-group text-light">
@@ -20,32 +21,52 @@
           <input
             type="title"
             class="form-control"
-            id="productstitle"
+            id="brand_name_ch"
             aria-describedby="product"
             placeholder="Add Title"
+            v-model="body.brand_name_ch"
           />
         </div>
 
         <div class="text-right">
           <button type="cancel" class="btn btn-outline-white">CANCEL</button>
-          <button type="submit" class="btn btn-gold">PUBLISH</button>
+          <button type="submit" class="btn btn-gold" >PUBLISH</button>
         </div>
       </form>
     </div>
   </div>
 </template>
+
 <script>
+import axios from "axios";
+
 export default {
+  name: 'addBrands',
   data() {
     return {
       myStyle: {
         backgroundColor: "#0F1F1E",
         height: "100%",
       },
+      body: {
+        brand_name_en: "",
+        brand_name_ch: ""
+      }
     };
   },
+  methods: {
+    async submitForm() {
+      await axios.post('http://localhost:3000/api/brands', this.body)
+        .then((response) => response.data, this.$router.push("/settingbrands")) 
+        .catch((error) => {
+          console.error(error);
+          return error.response.data;
+        });
+    },   
+  }
 };
 </script>
+
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Mitr:wght@300;500&family=Prompt:wght@200;300&display=swap");
 

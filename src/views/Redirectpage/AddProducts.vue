@@ -4,7 +4,7 @@
       <!-- Card stats -->
     </base-header>
     <div :style="myStyle" id="wrapper">
-      <form class="container py-6">
+      <form class="container py-6" v-on:submit.prevent="submitForm">
         <input
           v-if="imageShow == true"
           id="file-input"
@@ -35,6 +35,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add title"
+            v-model="body.pd_title_en"
           />
         </div>
         <div class="form-group text-light">
@@ -45,6 +46,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add title"
+            v-model="body.pd_title_ch"
           />
         </div>
         <div class="form-group text-light">
@@ -54,6 +56,7 @@
             id="x"
             rows="6"
             placeholder="Add content"
+            v-model="body.pd_content_en"
           ></textarea>
         </div>
 ​
@@ -64,6 +67,7 @@
             id="x"
             rows="6"
             placeholder="Add content"
+            v-model="body.pd_content_ch"
           ></textarea>
         </div>
 ​
@@ -155,6 +159,7 @@
               CANCEL
             </button>
           </router-link>
+        
           <button type="submit" class="btn btn-gold" @click="publish">
             PUBLISH
           </button>
@@ -164,16 +169,26 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   data: () => {
     return {
+      body: {
+        pd_title_en: "",
+        pd_title_ch: "",
+        pd_content_en: "",
+        pd_content_ch: "",
+        pd_img_url: "",
+        specifications: [],
+      },
       specification: [
         {
           DescriptionEng: "",
           ThaiRiceEng: "",
           DescriptionCh: "",
-          ThaiRiceCh: ""
-        }
+          ThaiRiceCh: "",
+        },
       ],
       imageData: "",
       imageShow: false,
@@ -188,13 +203,13 @@ export default {
         DescriptionEng: "",
         ThaiRiceEng: "",
         DescriptionCh: "",
-        ThaiRiceCh: ""
+        ThaiRiceCh: "",
       });
       console.log(this.specification);
     },
     publish() {
       const data = {
-        specification: this.specification
+        specification: this.specification,
       };
       alert(JSON.stringify(data, null, 2));
     },
@@ -206,7 +221,7 @@ export default {
         // create a new FileReader to read this image and convert to base64 format
         var reader = new FileReader();
         // Define a callback function to run, when FileReader finishes its job
-        reader.onload = e => {
+        reader.onload = (e) => {
           // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
@@ -215,8 +230,22 @@ export default {
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
+    },
+    async submitForm() {
+      this.body.pd_img_url = this.imageData;
+      this.body.specifications = this.specification;
+      await axios
+        .post("http://localhost:3000/api/products", this.body)
+        .then(
+          response => console.log(response.data),
+          this.$router.push("/products")
+        )
+        .catch(error => {
+          console.error(error);
+          return error.response.data;
+        });
     }
-  }
+  },
 };
 </script>
 <style scoped>

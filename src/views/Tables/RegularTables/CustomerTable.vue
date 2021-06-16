@@ -4,55 +4,51 @@
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        
+        :data="list"
       >
-        <!-- <el-table-column label="ลำดับ" min-width="150px" prop="label">
-          <template v-slot="{ row }">
-            <b-media no-body class="align-items-center">
-              <b-media-body>
-                <span class="font-weight-600 name mb-0 text-sm">{{
-                  row.title
-                }}</span>
-              </b-media-body>
-            </b-media>
-          </template>
-        </el-table-column> -->
         <el-table-column
           label="ลำดับ"
           :index="indexMethod"
           type="index"
           width="100px"
+          align="center"
         >
         </el-table-column>
 
         <el-table-column label="Name" prop="name" min-width="200px">
         </el-table-column>
 
-        <el-table-column label="Email" min-width="200px" prop="email">
+        <el-table-column label="Email" min-width="300px" prop="email">
         </el-table-column>
 
-        <el-table-column label="Telephone" prop="tel" min-width="200px">
+        <el-table-column label="Telephone" prop="tel" min-width="170px">
         </el-table-column>
 
         <el-table-column
           label="Products"
-          prop="orders.0.product.pd_title_en"
+          prop="orders"
           min-width="200px"
+          :formatter="displayProductName"
         >
-         
         </el-table-column>
 
-        <el-table-column label="Size" prop="orders.0.size" min-width="200px">
+        <el-table-column 
+          label="Size" 
+          prop="orders" 
+          min-width="100px"
+          :formatter="displaySize"
+        >
         </el-table-column>
 
         <el-table-column
           label="Material of Bag"
-          prop="orders.0.mat_bag"
+          prop="orders"
           min-width="200px"
+          :formatter="displayMatBag"
         >
         </el-table-column>
 
-        <el-table-column label="Destination" prop="dest" min-width="200px">
+        <el-table-column label="Destination" prop="dest" min-width="250px">
         </el-table-column>
 
         <el-table-column label="Remark" prop="remark" min-width="200px">
@@ -66,12 +62,29 @@
         >
         </el-table-column>
 
-        <el-table-column label="จัดการ" prop="edit" min-width="170px" align="center">
-          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editStatus(id)">แก้ไข</button>
+        <el-table-column
+          label="จัดการ"
+          prop="id"
+          min-width="190px"
+          align="center"
+        >
+          <template v-slot="{ row }">
+            <button
+              type="button" class="btn" id="edit" data-toggle="modal" @click="editStatus(row.id)"
+            >
+              แก้ไขสถานะ
+            </button>
+          </template>
         </el-table-column>
 
         <el-table-column min-width="170px">
-          <button type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(index)">ลบ</button>
+          <template v-slot="{ row }">
+            <button
+              type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(row.id)"
+            >
+              ลบ
+            </button>
+          </template>
         </el-table-column>
       </el-table>
 
@@ -105,7 +118,6 @@ export default {
   created: function () {
     axios.get("http://localhost:3000/api/customers").then((response) => {
       this.list = response.data.data;
-      console.log(response.data.data);
     });
   },
   methods: {
@@ -119,11 +131,64 @@ export default {
     indexMethod(index) {
       return (this.currentPage - 1) * this.intPageSize + index + 1;
     },
-    deleteRow(index) {
-      // axios.delete('https://localhost:3000/api/custumers/' + index).then(response => {
-      //   this.list.splice(index, 1)
-      // });
-      this.$store.dispatch("deleteRow", index);
+    re() {
+      axios.get("http://localhost:3000/api/customers").then((response) => {
+        this.list = response.data.data;
+      });
+    },
+    deleteRow(id) {
+      if(confirm('Are you sure you want to delete this item?')){
+        axios
+          .delete(`http://localhost:3000/api/customers/${id}`)
+          .then((response) => {
+            this.list.splice(id, 1),
+            this.re();
+        });
+      }
+    },
+    async editStatus(id) {
+      await axios
+          .post(`http://localhost:3000/api/customers/${id}`)
+          .then((response) => {
+            this.contacted = !response.data.data.contacted,
+            this.re();
+      });
+    },
+    displayProductName(row) {
+      const productName = [];
+      const str = '';
+      const order = row.orders;
+      // console.log(row.orders);
+      if (order.length > 0) {
+        for (let i = 0; i < order.length; i++) {
+          const name = order[i].product.pd_title_en;
+          productName.push(name);
+        }
+        return productName.toString();
+      }
+    },
+    displayMatBag(row) {
+      const MatBag = [];
+      const order = row.orders;
+
+      if (order.length > 0) {
+        for (let i = 0; i < order.length; i++) {
+          const matbag = order[i].mat_bag;
+          MatBag.push(matbag);
+        }
+        return MatBag.toString();
+      }
+    },
+    displaySize(row) {
+      const Size = [];
+      const order = row.orders;
+      if (order.length > 0) {
+        for (let i = 0; i < order.length; i++) {
+          const size = order[i].size;
+          Size.push(size);
+        }
+        return Size.toString();
+      }
     },
   },
 };
@@ -137,7 +202,7 @@ export default {
   color: black;
 }
 
-#del{
+#del {
   color: red;
   border: 2px solid red;
   font-weight: 300;
@@ -145,12 +210,12 @@ export default {
 }
 
 #del:hover {
-  color:white;
+  color: white;
   background-color: red;
   border: 2px solid red;
 }
 
-#edit{
+#edit {
   color: gray;
   border: 2px solid gray;
   font-weight: 300;
@@ -158,7 +223,7 @@ export default {
 }
 
 #edit:hover {
-  color:white;
+  color: white;
   background-color: gray;
   border: 2px solid gray;
 }

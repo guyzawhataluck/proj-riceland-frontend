@@ -4,7 +4,7 @@
       <!-- Card stats -->
     </base-header>
     <div :style="myStyle" id="wrapper">
-      <form class="container py-6">
+      <form class="container py-6" v-on:submit.prevent="submitForm">
         <input
           v-if="imageShow == true"
           id="file-input"
@@ -38,6 +38,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add Title"
+            v-model="body.news_title_en"
           />
         </div>
         <div class="form-group text-light">
@@ -48,6 +49,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add Title"
+            v-model="body.news_title_ch"
           />
         </div>
         <div class="form-group text-light">
@@ -57,6 +59,7 @@
             id="x"
             rows="6"
             placeholder="Add Content"
+            v-model="body.news_content_en"
           ></textarea>
         </div>
         <div class="form-group text-light">
@@ -66,6 +69,7 @@
             id="x"
             rows="6"
             placeholder="Add Content"
+            v-model="body.news_content_ch"
           ></textarea>
         </div>
 
@@ -80,20 +84,31 @@
 <script>
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
+import axios from "axios";
 
 export default {
     components: {DatePicker},
   data: () => {
     return {
-      value: "",
+      body: {
+        news_title_en: "",
+        news_title_ch: "",
+        news_content_en: "",
+        news_content_ch: "",
+        news_img_url: "",
+        news_date: ""
+      },
       time1: null,
       imageData: "",
       imageShow: false,
       myStyle: {
         backgroundColor: "#0F1F1E",
-      }
+        height: "100%"
+      },
+      value: ""
     };
   },
+  components: { DatePicker },
   methods: {
     previewImage: function(event) {
       // Reference to the DOM input element
@@ -108,10 +123,27 @@ export default {
           // Read image as base64 and set to imageData
           this.imageData = e.target.result;
           this.imageShow = true;
+          console.log(this.imageShow);
+
+          console.log(this.imageData);
         };
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
+    },
+    async submitForm() {
+      this.body.news_img_url = this.imageData;
+      this.body.news_date = this.time1;
+      await axios
+        .post("http://localhost:3000/api/news", this.body)
+        .then(
+          response => console.log(response.data),
+          this.$router.push("/news")
+        )
+        .catch(error => {
+          console.error(error);
+          return error.response.data;
+        });
     }
   }
 };
@@ -133,7 +165,7 @@ export default {
 .image-upload > input {
   display: none;
 }
-img {
+.img {
   height: 505px;
   width: 505px;
 }
