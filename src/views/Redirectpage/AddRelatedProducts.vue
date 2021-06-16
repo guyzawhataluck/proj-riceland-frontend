@@ -5,12 +5,24 @@
     </base-header>
     <div id="wrapper">
       <form class="container py-6">
-        <div class="image-upload text-center">
-          <label for="file-input">
+        <input
+          v-if="imageShow == true"
+          id="file-input"
+          type="file"
+          @change="previewImage"
+          accept="image/*"
+        />
+        <img class="preview" :src="imageData" v-if="imageShow == true" />
+        <div class="form-group image-upload text-center">
+          <label for="file-input" v-if="imageShow == false">
             <img class="img" src="./img/addrelated.png" />
           </label>
-
-          <input id="file-input" type="file" />
+          <input
+            id="file-input"
+            type="file"
+            @change="previewImage"
+            accept="image/*"
+          />
         </div>
         <div class="form-group text-light">
           <label>ADD TITLE (EN)</label>
@@ -61,14 +73,35 @@
 </template>
 <script>
 export default {
-  data() {
+  data: () => {
     return {
+      imageData: "",
+      imageShow: false,
       myStyle: {
         backgroundColor: "#0F1F1E",
-        height: "100%",
-      },
+      }
     };
   },
+  methods: {
+    previewImage: function(event) {
+      // Reference to the DOM input element
+      var input = event.target;
+      // Ensure that you have a file before attempting to read it
+      if (input.files && input.files[0]) {
+        // create a new FileReader to read this image and convert to base64 format
+        var reader = new FileReader();
+        // Define a callback function to run, when FileReader finishes its job
+        reader.onload = e => {
+          // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+          // Read image as base64 and set to imageData
+          this.imageData = e.target.result;
+          this.imageShow = true;
+        };
+        // Start the reader job - read file as a data url (base64 format)
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  }
 };
 </script>
 <style scoped>
@@ -88,7 +121,7 @@ export default {
 .image-upload > input {
   display: none;
 }
-.img {
+img {
   height: 505px;
   width: 505px;
 }

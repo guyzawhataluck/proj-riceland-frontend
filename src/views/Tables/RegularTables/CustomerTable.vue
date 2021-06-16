@@ -13,32 +13,32 @@
           :index="indexMethod"
           type="index"
           width="100px"
+          align="center"
         >
         </el-table-column>
 
         <el-table-column label="Name" prop="name" min-width="200px">
         </el-table-column>
 
-        <el-table-column label="Email" min-width="200px" prop="email">
+        <el-table-column label="Email" min-width="300px" prop="email">
         </el-table-column>
 
-        <el-table-column label="Telephone" prop="tel" min-width="200px">
+        <el-table-column label="Telephone" prop="tel" min-width="170px">
         </el-table-column>
 
         <el-table-column
           label="Products"
-          min-width="180px"
           prop="orders"
+          min-width="200px"
           :formatter="displayProductName"
         >
-
         </el-table-column>
 
-        <el-table-column
-          label="Size"
-          prop="orders"
+        <el-table-column 
+          label="Size" 
+          prop="orders" 
+          min-width="100px"
           :formatter="displaySize"
-          min-width="200px"
         >
         </el-table-column>
 
@@ -50,7 +50,7 @@
         >
         </el-table-column>
 
-        <el-table-column label="Destination" prop="dest" min-width="200px">
+        <el-table-column label="Destination" prop="dest" min-width="250px">
         </el-table-column>
 
         <el-table-column label="Remark" prop="remark" min-width="200px">
@@ -141,7 +141,7 @@ export default {
         this.list = response.data.data;
       });
     },
-     deleteRow(id) {
+    deleteRow(id) {
       if(confirm('Are you sure you want to delete this item?')){
         axios
           .delete(`http://localhost:3000/api/customers/${id}`)

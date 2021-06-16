@@ -9,14 +9,16 @@
       >
         <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
         </el-table-column>
+
         <el-table-column label="Brand En" prop="brand_name_en" min-width="200px">
         </el-table-column>
+
         <el-table-column label="Brand Ch" prop="brand_name_ch" min-width="200px">
         </el-table-column>
         <el-table-column
           label="จัดการ"
           prop="edit"
-          min-width="170px"
+          min-width="190px"
           align="center"
         >
         <template v-slot="{ row }">
@@ -25,6 +27,18 @@
           </button>
         </template>
         </el-table-column>
+        
+
+        <el-table-column min-width="170px">
+          <template v-slot="{ row }">
+            <button
+              type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(row.id)"
+            >
+              ลบ
+            </button>
+          </template>
+        </el-table-column>
+
       </el-table>
 
       <b-card-footer class="py-4 d-flex justify-content-end">
@@ -70,6 +84,21 @@ export default {
       },
   editBrand(id) {
         this.$router.push(`/editBrand/${id}`)
+    },
+    re() {
+      axios.get("http://localhost:3000/api/brands").then((response) => {
+        this.list = response.data.data;
+      });
+    },
+    deleteRow(id) {
+      if(confirm('Are you sure you want to delete this item?')){
+        axios
+          .delete(`http://localhost:3000/api/brands/${id}`)
+          .then((response) => {
+            this.list.splice(id, 1),
+            this.re();
+        });
+      }
     },   
   },
   computed: {
