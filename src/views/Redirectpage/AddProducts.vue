@@ -3,7 +3,7 @@
     <base-header class="pr-8 pb-5 pt-2">
       <!-- Card stats -->
     </base-header>
-    <div :style="myStyle" id="wrapper">
+    <div id="wrapper" style="background-color: #0f1f1e; color: white;">
       <form class="container py-6">
         <input
           v-if="imageShow == true"
@@ -24,9 +24,6 @@
             accept="image/*"
           />
         </div>
-        <!-- <div class="form-group image-upload text-center">
-          <img class="preview" :src="imageData" />
-        </div> -->
         <div class="form-group text-light">
           <label>ADD TITLE (EN)</label>
           <input
@@ -56,7 +53,7 @@
             placeholder="Add content"
           ></textarea>
         </div>
-​
+        ​
         <div class="form-group text-light">
           <label for="x">ADD CONTENT (CH)</label>
           <textarea
@@ -66,26 +63,26 @@
             placeholder="Add content"
           ></textarea>
         </div>
-​
+        ​
         <!-- Add Svg Icon-->
-        <div style="height:50px;">
+        <div style="height:20px;">
           <div class="form-row text-light">
-            <div class="form-group col-md-6">
+            <div class="form-group col-sm-6">
               <div>
                 <label class="text-left text-light" for="x"
                   >SPECIFICATION(EN)</label
                 >
               </div>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-6">
               <div class="form-row">
-                <div class="form-group col-sm-8">
+                <div class="form-group col-8">
                   <label class="text-left text-light" for="x"
                     >SPECIFICATION(CH)</label
                   >
                 </div>
                 <div
-                  class="text-right form-group col-sm-4"
+                  class="text-right form-group col-3"
                   @click="addSpecification"
                 >
                   <svg
@@ -106,7 +103,7 @@
             </div>
           </div>
         </div>
-​
+        ​
         <div
           class="form-row text-light"
           v-for="(speci, index) in specification"
@@ -117,7 +114,7 @@
               v-model="speci.DescriptionEng"
               type="text"
               class="form-control"
-              id="inputEmail4"
+              id="DescriptionEng"
               placeholder="Description"
             />
           </div>
@@ -126,11 +123,11 @@
               v-model="speci.ThaiRiceEng"
               type="text"
               class="form-control"
-              id="inputPassword4"
+              id="ThaiRiceEng"
               placeholder="Thai Rice Standard"
             />
           </div>
-          <div class="form-group col-3">
+          <div class="form-group col-2">
             <input
               v-model="speci.DescriptionCh"
               type="text"
@@ -148,9 +145,23 @@
               placeholder="Thai Rice Standard"
             />
           </div>
+          <div class="form-group col-1 pt-2" @click="delSpecification(index)">
+            <svg
+              width="14"
+              height="15"
+              viewBox="0 0 14 15"
+              fill="red"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.5 1C1.23478 1 0.98043 1.10536 0.792893 1.29289C0.605357 1.48043 0.5 1.73478 0.5 2V3C0.5 3.26522 0.605357 3.51957 0.792893 3.70711C0.98043 3.89464 1.23478 4 1.5 4H2V13C2 13.5304 2.21071 14.0391 2.58579 14.4142C2.96086 14.7893 3.46957 15 4 15H10C10.5304 15 11.0391 14.7893 11.4142 14.4142C11.7893 14.0391 12 13.5304 12 13V4H12.5C12.7652 4 13.0196 3.89464 13.2071 3.70711C13.3946 3.51957 13.5 3.26522 13.5 3V2C13.5 1.73478 13.3946 1.48043 13.2071 1.29289C13.0196 1.10536 12.7652 1 12.5 1H9C9 0.734784 8.89464 0.48043 8.70711 0.292893C8.51957 0.105357 8.26522 0 8 0L6 0C5.73478 0 5.48043 0.105357 5.29289 0.292893C5.10536 0.48043 5 0.734784 5 1H1.5ZM4.5 5C4.63261 5 4.75979 5.05268 4.85355 5.14645C4.94732 5.24021 5 5.36739 5 5.5V12.5C5 12.6326 4.94732 12.7598 4.85355 12.8536C4.75979 12.9473 4.63261 13 4.5 13C4.36739 13 4.24021 12.9473 4.14645 12.8536C4.05268 12.7598 4 12.6326 4 12.5V5.5C4 5.36739 4.05268 5.24021 4.14645 5.14645C4.24021 5.05268 4.36739 5 4.5 5ZM7 5C7.13261 5 7.25979 5.05268 7.35355 5.14645C7.44732 5.24021 7.5 5.36739 7.5 5.5V12.5C7.5 12.6326 7.44732 12.7598 7.35355 12.8536C7.25979 12.9473 7.13261 13 7 13C6.86739 13 6.74021 12.9473 6.64645 12.8536C6.55268 12.7598 6.5 12.6326 6.5 12.5V5.5C6.5 5.36739 6.55268 5.24021 6.64645 5.14645C6.74021 5.05268 6.86739 5 7 5ZM10 5.5V12.5C10 12.6326 9.94732 12.7598 9.85355 12.8536C9.75979 12.9473 9.63261 13 9.5 13C9.36739 13 9.24021 12.9473 9.14645 12.8536C9.05268 12.7598 9 12.6326 9 12.5V5.5C9 5.36739 9.05268 5.24021 9.14645 5.14645C9.24021 5.05268 9.36739 5 9.5 5C9.63261 5 9.75979 5.05268 9.85355 5.14645C9.94732 5.24021 10 5.36739 10 5.5Z"
+                fill="#FF5151"
+              />
+            </svg>
+          </div>
         </div>
         <div class="text-right">
-          <router-link to="../Products">
+          <router-link to="../products" class="pr-2">
             <button type="cancel" class="btn btn-outline-white">
               CANCEL
             </button>
@@ -172,29 +183,29 @@ export default {
           DescriptionEng: "",
           ThaiRiceEng: "",
           DescriptionCh: "",
-          ThaiRiceCh: ""
-        }
+          ThaiRiceCh: "",
+        },
       ],
       imageData: "",
       imageShow: false,
-      myStyle: {
-        backgroundColor: "#0F1F1E"
-      }
     };
   },
   methods: {
+    delSpecification(index){
+      this.specification.splice(index,1);
+    },
     addSpecification() {
       this.specification.push({
         DescriptionEng: "",
         ThaiRiceEng: "",
         DescriptionCh: "",
-        ThaiRiceCh: ""
+        ThaiRiceCh: "",
       });
       console.log(this.specification);
     },
     publish() {
       const data = {
-        specification: this.specification
+        specification: this.specification,
       };
       alert(JSON.stringify(data, null, 2));
     },
@@ -215,13 +226,12 @@ export default {
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Mitr:wght@300;500&family=Prompt:wght@200;300&display=swap");
-​
 * {
   font-family: "Mitr", sans-serif;
   font-weight: 300;
@@ -232,6 +242,8 @@ export default {
   background-color: #cc9833;
   border-color: white;
   color: white;
+  font-family: "Mitr", sans-serif;
+  font-weight: 300;
 }
 .image-upload > input {
   display: none;
@@ -241,12 +253,20 @@ img {
   width: 505px;
 }
 .container {
-  width: 545px;
+  width: 600px;
 }
 .form-group > input {
   border-radius: 16px;
+  font-family: "Mitr", sans-serif;
+  font-weight: 300;
 }
 .btn {
   border-radius: 16px;
+}
+.form-control {
+  background-color: #0f1f1e;
+}
+.text-light {
+  color: white;
 }
 </style>

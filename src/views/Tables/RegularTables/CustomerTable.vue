@@ -67,7 +67,6 @@ export default {
   data() {
     return {
       currentPage: 1,
-      currentPage: 1,
       list: []
     }
   }

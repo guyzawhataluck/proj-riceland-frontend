@@ -77,8 +77,14 @@
           ></textarea>
         </div>
         <div class="text-right">
-          <button type="cancel" class="btn btn-outline-white">CANCEL</button>
-          <button type="submit" class="btn btn-gold">PUBLISH</button>
+          <router-link to="../brands" class="pr-2">
+            <button type="cancel" class="btn btn-outline-white">
+              CANCEL
+            </button>
+          </router-link>
+          <button type="submit" class="btn btn-gold" @click="publish">
+            PUBLISH
+          </button>
         </div>
       </form>
     </div>
