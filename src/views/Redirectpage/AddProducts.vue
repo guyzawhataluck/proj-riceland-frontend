@@ -68,7 +68,7 @@
         </div>
         ​
         <!-- Add Svg Icon-->
-        <div style="height:20px;">
+        <div style="height:30px;">
           <div class="form-row text-light">
             <div class="form-group col-sm-6">
               <div>
@@ -111,9 +111,9 @@
           v-for="(speci, index) in specification"
           :key="index"
         >
-          <div class="form-group col-3">
+          <div class="form-group col-2">
             <input
-              v-model="speci.DescriptionEng"
+              v-model="speci.sp_name_en"
               type="text"
               class="form-control"
               id="DescriptionEng"
@@ -122,7 +122,7 @@
           </div>
           <div class="form-group col-3">
             <input
-              v-model="speci.ThaiRiceEng"
+              v-model="speci.sp_detail_en"
               type="text"
               class="form-control"
               id="ThaiRiceEng"
@@ -131,7 +131,7 @@
           </div>
           <div class="form-group col-2">
             <input
-              v-model="speci.DescriptionCh"
+              v-model="speci.sp_name_ch"
               type="text"
               class="form-control"
               id="inputEmail4"
@@ -140,7 +140,7 @@
           </div>
           <div class="form-group col-3">
             <input
-              v-model="speci.ThaiRiceCh"
+              v-model="speci.sp_detail_ch"
               type="text"
               class="form-control"
               id="inputPassword4"
@@ -192,10 +192,10 @@ export default {
       },
       specification: [
         {
-          DescriptionEng: "",
-          ThaiRiceEng: "",
-          DescriptionCh: "",
-          ThaiRiceCh: "",
+          sp_name_en: "",
+          sp_detail_en: "",
+          sp_name_ch: "",
+          sp_detail_ch: "",
         },
       ],
       imageData: "",
@@ -208,16 +208,16 @@ export default {
     },
     addSpecification() {
       this.specification.push({
-        DescriptionEng: "",
-        ThaiRiceEng: "",
-        DescriptionCh: "",
-        ThaiRiceCh: "",
+        sp_name_en: "",
+        sp_detail_en: "",
+        sp_name_ch: "",
+        sp_detail_ch: "",
       });
       console.log(this.specification);
     },
     publish() {
       const data = {
-        specification: this.specification,
+        data: this.body,
       };
       alert(JSON.stringify(data, null, 2));
     },
@@ -242,6 +242,7 @@ export default {
     async submitForm() {
       this.body.pd_img_url = this.imageData;
       this.body.specifications = this.specification;
+      console.log(JSON.stringify(this.body))
       await axios
         .post("http://localhost:3000/api/products", this.body)
         .then(

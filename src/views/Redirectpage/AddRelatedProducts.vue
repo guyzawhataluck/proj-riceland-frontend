@@ -4,7 +4,7 @@
       <!-- Card stats -->
     </base-header>
     <div id="wrapper">
-      <form class="container py-6">
+      <form class="container py-6" v-on:submit.prevent="submitForm">
         <input
           v-if="imageShow == true"
           id="file-input"
@@ -32,6 +32,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add Title"
+            v-model="body.pd_title_en"
           />
         </div>
         <div class="form-group text-light">
@@ -42,6 +43,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add Title"
+            v-model="body.pd_title_ch"
           />
         </div>
         <div class="form-group text-light">
@@ -51,6 +53,7 @@
             id="x"
             rows="6"
             placeholder="Add Content"
+            v-model="body.pd_content_en"
           ></textarea>
         </div>
         <div class="form-group text-light">
@@ -60,6 +63,7 @@
             id="x"
             rows="6"
             placeholder="Add Content"
+            v-model="body.pd_content_ch"
           ></textarea>
         </div>
 
@@ -69,18 +73,26 @@
               CANCEL
             </button>
           </router-link>
-          <button type="submit" class="btn btn-gold" @click="publish">
-            PUBLISH
-          </button>
+          <button type="submit" class="btn btn-gold">PUBLISH</button>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   data: () => {
     return {
+      body: {
+        pd_title_en: "",
+        pd_title_ch: "",
+        pd_content_en: "",
+        pd_content_ch: "",
+        pd_img_url: "",
+        is_related_product: true
+      },
       imageData: "",
       imageShow: false,
     };
@@ -103,6 +115,19 @@ export default {
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
+    },
+    async submitForm() {
+      this.body.pd_img_url = this.imageData;
+      await axios
+        .post("http://localhost:3000/api/relatedProducts", this.body)
+        .then(
+          response => console.log(response.data),
+          this.$router.push("/relatedproducts")
+        )
+        .catch(error => {
+          console.error(error);
+          return error.response.data;
+        });
     }
   }
 };

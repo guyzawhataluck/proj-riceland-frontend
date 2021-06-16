@@ -16,7 +16,7 @@
         <el-table-column label="Brand Ch" prop="brand.brand_name_ch" min-width="200px">
         </el-table-column>
 
-        <el-table-column label="Image" min-width="250px" prop="pd_img_url">
+        <el-table-column label="Image" min-width="150px" prop="pd_img_url">
           <template slot-scope="scope">
             <img :src="scope.row.pd_img_url" width="61px" height="61px"/>
           </template>

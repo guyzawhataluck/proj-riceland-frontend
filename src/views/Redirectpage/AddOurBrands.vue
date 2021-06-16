@@ -4,7 +4,7 @@
       <!-- Card stats -->
     </base-header>
     <div :style="myStyle" id="wrapper">
-      <form class="container py-6">
+      <form class="container py-6" v-on:submit.prevent="submitForm">
         <input
           v-if="imageShow == true"
           id="file-input"
@@ -30,12 +30,13 @@
             class="form-control"
             style="border-radius: 16px"
             id="brandSelection"
+            v-model="body.brand_name_en"
+            @click="callSettingBrands()"
+            :data="brand"
           >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option v-for="(item, key) in brand" :value="key" :key="key">
+              {{item.brand_name_en}}
+            </option>
           </select>
         </div>
         <div class="form-group text-light">
@@ -46,6 +47,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add title"
+            v-model="body.pd_title_en"
           />
         </div>
         <div class="form-group text-light">
@@ -56,6 +58,7 @@
             id="productstitle"
             aria-describedby="product"
             placeholder="Add title"
+            v-model="body.pd_title_ch"
           />
         </div>
         <div class="form-group text-light">
@@ -65,6 +68,7 @@
             id="x"
             rows="6"
             placeholder="Add content"
+            v-model="body.pd_content_en"
           ></textarea>
         </div>
         <div class="form-group text-light">
@@ -74,31 +78,37 @@
             id="x"
             rows="6"
             placeholder="Add content"
+            v-model="body.pd_content_ch"
           ></textarea>
         </div>
         <div class="text-right">
-          <router-link to="../brands" class="pr-2">
-            <button type="cancel" class="btn btn-outline-white">
-              CANCEL
-            </button>
-          </router-link>
-          <button type="submit" class="btn btn-gold" @click="publish">
-            PUBLISH
-          </button>
+          <button type="cancel" class="btn btn-outline-white">CANCEL</button>
+          <button type="submit" class="btn btn-gold">PUBLISH</button>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   data: () => {
     return {
+      body: {
+        pd_title_en: "",
+        pd_title_ch: "",
+        pd_content_en: "",
+        pd_content_ch: "",
+        pd_img_url: "",
+        brand_name_en: "",
+      },
       imageData: "",
       imageShow: false,
       myStyle: {
         backgroundColor: "#0F1F1E",
-      }
+      },
+      brand: [],
     };
   },
   methods: {
@@ -119,7 +129,26 @@ export default {
         // Start the reader job - read file as a data url (base64 format)
         reader.readAsDataURL(input.files[0]);
       }
-    }
+    },
+    async submitForm() {
+      this.body.pd_img_url = this.imageData;
+      console.log(this.body.brand_name_en)
+      await axios
+        .post("http://localhost:3000/api/brandProducts", this.body)
+        .then(
+          response => console.log(response.data),
+          this.$router.push("/brands")
+        )
+        .catch(error => {
+          console.error(error);
+          return error.response.data;
+        });
+    },
+    callSettingBrands() {
+      axios.get("http://localhost:3000/api/brands").then((response) => {
+        this.brand = response.data.data;
+      });
+    },
   }
 }
 </script>
@@ -140,6 +169,7 @@ export default {
 .image-upload > input {
   display: none;
 }
+
 img {
   height: 505px;
   width: 505px;

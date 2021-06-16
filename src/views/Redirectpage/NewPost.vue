@@ -79,9 +79,7 @@
               CANCEL
             </button>
           </router-link>
-          <button type="submit" class="btn btn-gold" @click="publish">
-            PUBLISH
-          </button>
+          <button type="submit" class="btn btn-gold">PUBLISH</button>
         </div>
       </form>
     </div>

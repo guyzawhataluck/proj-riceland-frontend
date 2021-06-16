@@ -33,6 +33,7 @@
             id="news_date"
             ref="news_date"
             valueType="format"
+            v-model="list.news_date"
             :value="list.news_date">
             </date-picker>
           </div>
@@ -86,7 +87,7 @@
         </div>
 
         <div class="text-right">
-           <router-link to="../settingbrands">
+           <router-link to="../news">
             <button type="cancel" class="btn btn-outline-white">
               CANCEL
             </button>

@@ -1,13 +1,15 @@
 <template>
   <div class="overflow-auto" id="table">
+    <div class="pb-2">
+      <input placeholder="Search" type="text" v-model="searchQuery" />
+    </div>
     <b-card no-body>
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
-        :data="pagedTableData"
+        :data="resultQuery"
         id="my-table"
       >
-
         <el-table-column
           label="ลำดับ"
           :index="indexMethod"
@@ -34,9 +36,9 @@
         >
         </el-table-column>
 
-        <el-table-column 
-          label="Size" 
-          prop="orders" 
+        <el-table-column
+          label="Size"
+          prop="orders"
           min-width="100px"
           :formatter="displaySize"
         >
@@ -72,7 +74,11 @@
         >
           <template v-slot="{ row }">
             <button
-              type="button" class="btn" id="edit" data-toggle="modal" @click="editStatus(row.id)"
+              type="button"
+              class="btn"
+              id="edit"
+              data-toggle="modal"
+              @click="editStatus(row.id)"
             >
               แก้ไขสถานะ
             </button>
@@ -82,7 +88,11 @@
         <el-table-column min-width="170px">
           <template v-slot="{ row }">
             <button
-              type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(row.id)"
+              type="button"
+              class="btn"
+              id="del"
+              data-toggle="modal"
+              @click="deleteRow(row.id)"
             >
               ลบ
             </button>
@@ -117,7 +127,8 @@ export default {
       perPage: 8,
       currentPage: 1,
       list: [],
-      intPageSize: 8
+      intPageSize: 8,
+      searchQuery: ""
     };
   },
   created: function() {
@@ -137,27 +148,25 @@ export default {
       return (this.currentPage - 1) * this.intPageSize + index + 1;
     },
     re() {
-      axios.get("http://localhost:3000/api/customers").then((response) => {
+      axios.get("http://localhost:3000/api/customers").then(response => {
         this.list = response.data.data;
       });
     },
     deleteRow(id) {
-      if(confirm('Are you sure you want to delete this item?')){
+      if (confirm("Are you sure you want to delete this item?")) {
         axios
           .delete(`http://localhost:3000/api/customers/${id}`)
-          .then((response) => {
-            this.list.splice(id, 1),
-            this.re();
-        });
+          .then(response => {
+            this.list.splice(id, 1), this.re();
+          });
       }
     },
     async editStatus(id) {
       await axios
-          .post(`http://localhost:3000/api/customers/${id}`)
-          .then((response) => {
-            this.contacted = !response.data.data.contacted,
-            this.re();
-      });
+        .post(`http://localhost:3000/api/customers/${id}`)
+        .then(response => {
+          (this.contacted = !response.data.data.contacted), this.re();
+        });
     },
     displayProductName(row) {
       const productName = [];
@@ -197,20 +206,65 @@ export default {
         return Size.toString();
       }
     },
-    setPage (val) {
-        this.currentPage = val
-        
-      }
+    setPage(val) {
+      this.currentPage = val;
+    }
   },
   computed: {
-      rows() {
-        
-        return this.list.length
-      },
-      pagedTableData() {
-       return this.list.slice(this.perPage * this.currentPage - this.perPage, this.perPage * this.currentPage)
-     }
+    rows() {
+      return this.list.length;
+    },
+    pagedTableData() {
+      return this.list.slice(
+        this.perPage * this.currentPage - this.perPage,
+        this.perPage * this.currentPage
+      );
+    },
+    resultQuery() {
+      if (!this.searchQuery) {
+        console.log(this.searchQuery);
+        return this.list.slice(
+          this.perPage * this.currentPage - this.perPage,
+          this.perPage * this.currentPage
+        );
+      } else {
+        // if (/\d/.test(this.searchQuery)) {
+        //   return this.list.filter(item => {
+        //     if (item.tel != null) {
+        //       return this.searchQuery
+        //         .split(" ")
+        //         .every(v => item.tel.includes(v));
+        //     }
+        //   });
+        // } else {\
+
+        return this.list.filter(item => {
+          if (item.tel == null) {
+            return this.searchQuery
+              .toLowerCase()
+              .split(" ")
+              .every(
+                v =>
+                  item.name.toLowerCase().includes(v) ||
+                  item.email.toLowerCase().includes(v) ||
+                  item.dest.toLowerCase().includes(v)
+              );
+          } else {
+            return this.searchQuery
+              .toLowerCase()
+              .split(" ")
+              .every(
+                v =>
+                  item.name.toLowerCase().includes(v) ||
+                  item.email.toLowerCase().includes(v) ||
+                  item.dest.toLowerCase().includes(v) ||
+                  item.tel.includes(v)
+              );
+          }
+        });
+      }
     }
+  }
 };
 </script>
 

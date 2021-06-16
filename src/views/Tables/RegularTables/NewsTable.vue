@@ -1,54 +1,96 @@
 <template>
   <div id="table">
-    <b-card no-body>
+    <div style="width:80vw">
+      <button
+        style="float:right"
+        type="button"
+        class="btn"
+        id="re"
+        data-toggle="modal"
+        @click="re()"
+      >
+        refresh
+      </button>
+    </div>
 
+    <b-card no-body>
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
         :data="pagedTableData"
       >
-        <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
+        <el-table-column
+          label="ลำดับ"
+          :index="indexMethod"
+          type="index"
+          width="100px"
+        >
         </el-table-column>
 
         <el-table-column label="Date" min-width="200px" prop="news_date">
         </el-table-column>
 
-        <el-table-column label="Image" min-width="250px" prop="news_img_url">
+        <el-table-column label="Image" min-width="150px" prop="news_img_url">
           <template slot-scope="scope">
-            <img :src="scope.row.news_img_url" width="61px" height="61px"/>
+            <img :src="scope.row.news_img_url" width="61px" height="61px" />
           </template>
         </el-table-column>
 
-        <el-table-column label="Title En" prop="news_title_en" min-width="200px">
+        <el-table-column
+          label="Title En"
+          prop="news_title_en"
+          min-width="200px"
+        >
         </el-table-column>
 
-        <el-table-column label="Title Ch" prop="news_title_ch" min-width="200px">
+        <el-table-column
+          label="Title Ch"
+          prop="news_title_ch"
+          min-width="200px"
+        >
         </el-table-column>
 
-        <el-table-column label="Content En" prop="news_content_en" min-width="200px">
+        <el-table-column
+          label="Content En"
+          prop="news_content_en"
+          min-width="200px"
+        >
         </el-table-column>
 
-        <el-table-column label="Content Ch" prop="news_content_ch" min-width="200px">
+        <el-table-column
+          label="Content Ch"
+          prop="news_content_ch"
+          min-width="200px"
+        >
         </el-table-column>
 
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
           <template v-slot="{ row }">
-          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editNews(row.id)">
-            แก้ไข
-          </button>
-        </template>
+            <button
+              type="button"
+              class="btn"
+              id="edit"
+              data-toggle="modal"
+              @click="editNews(row.id)"
+            >
+              แก้ไข
+            </button>
+          </template>
         </el-table-column>
 
         <el-table-column min-width="170px">
           <template v-slot="{ row }">
             <button
-              type="button" class="btn" id="del" data-toggle="modal" @click="deleteRow(row.id)"
+              type="button"
+              class="btn"
+              id="del"
+              data-toggle="modal"
+              @click="deleteRow(row.id)"
             >
               ลบ
             </button>
           </template>
         </el-table-column>
-
       </el-table>
 
       <b-card-footer class="py-4 d-flex justify-content-end">
@@ -79,48 +121,45 @@ export default {
       intPageSize: 5
     };
   },
-  created: function() {
-    axios.get('http://localhost:3000/api/news').then((response) => {
-      this.list = response.data.data
-    })
+  created: async function() {
+    await axios.get("http://localhost:3000/api/news").then(response => {
+      this.list = response.data.data;
+    });
   },
   methods: {
     indexMethod(index) {
-        return (this.currentPage - 1) * this.intPageSize + index + 1 
+      return (this.currentPage - 1) * this.intPageSize + index + 1;
     },
-    setPage (val) {
-        this.currentPage = val
-        
-      },
-      re() {
-      axios.get("http://localhost:3000/api/news").then((response) => {
+    setPage(val) {
+      this.currentPage = val;
+    },
+    re() {
+      axios.get("http://localhost:3000/api/news").then(response => {
         this.list = response.data.data;
       });
     },
     deleteRow(id) {
-      if(confirm('Are you sure you want to delete this item?')){
-        axios
-          .delete(`http://localhost:3000/api/news/${id}`)
-          .then((response) => {
-            this.list.splice(id, 1),
-            this.re();
+      if (confirm("Are you sure you want to delete this item?")) {
+        axios.delete(`http://localhost:3000/api/news/${id}`).then(response => {
+          this.list.splice(id, 1), this.re();
         });
       }
     },
-      editNews(id) {
-        this.$router.push(`/editNews/${id}`)
-    }, 
+    editNews(id) {
+      this.$router.push(`/editNews/${id}`);
+    }
   },
   computed: {
-      rows() {
-        
-        return this.list.length
-      },
-      pagedTableData() {
-        
-       return this.list.slice(this.perPage * this.currentPage - this.perPage, this.perPage * this.currentPage)
-     }
+    rows() {
+      return this.list.length;
+    },
+    pagedTableData() {
+      return this.list.slice(
+        this.perPage * this.currentPage - this.perPage,
+        this.perPage * this.currentPage
+      );
     }
+  }
 };
 </script>
 
@@ -144,7 +183,7 @@ export default {
   border: 2px solid red;
 }
 
-#edit{
+#edit {
   color: gray;
   border: 2px solid gray;
   font-weight: 300;
@@ -152,7 +191,7 @@ export default {
 }
 
 #edit:hover {
-  color:white;
+  color: white;
   background-color: gray;
   border: 2px solid gray;
 }

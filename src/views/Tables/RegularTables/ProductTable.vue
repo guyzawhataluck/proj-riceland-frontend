@@ -9,7 +9,7 @@
         <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
         </el-table-column>
 
-        <el-table-column label="Image" width="250px" prop="pd_img_url" align="center">
+        <el-table-column label="Image" width="150px" prop="pd_img_url" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.pd_img_url" width="61px" height="61px"/>
           </template>
