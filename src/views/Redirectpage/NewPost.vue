@@ -165,10 +165,11 @@ export default {
 .image-upload > input {
   display: none;
 }
-.img {
+img {
   height: 505px;
   width: 505px;
 }
+
 .container {
   width: 545px;
 }

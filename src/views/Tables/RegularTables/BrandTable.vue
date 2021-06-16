@@ -33,20 +33,12 @@
 
         <el-table-column label="Content Ch" prop="pd_content_ch" min-width="200px">
         </el-table-column>
-
-        <el-table-column
-          label="จัดการ"
-          prop="id"
-          min-width="190px"
-          align="center"
-        >
+        <el-table-column label="จัดการ" prop="edit" min-width="200px">
           <template v-slot="{ row }">
-            <button
-              type="button" class="btn" id="edit" data-toggle="modal" @click="editStatus(row.id)"
-            >
-              แก้ไข
-            </button>
-          </template>
+          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editBrandProduct(row.id)">
+            แก้ไข
+          </button>
+        </template>
         </el-table-column>
 
         <el-table-column min-width="170px">
@@ -98,7 +90,7 @@ export default {
     indexMethod(index) {
         return (this.currentPage - 1) * this.intPageSize + index + 1 
     },
-  setPage (val) {
+    setPage (val) {
         this.currentPage = val
         
       },
@@ -117,6 +109,10 @@ export default {
         });
       }
     },
+    editBrandProduct(id) {
+        this.$router.push(`/editBrandProduct/${id}`)
+    },   
+ 
   },
   computed: {
       rows() {
@@ -137,7 +133,6 @@ export default {
   /* font-family: "Mitr", sans-serif; */
   font-family: "Prompt", sans-serif;
 }
-
 #del {
   color: red;
   border: 2px solid red;

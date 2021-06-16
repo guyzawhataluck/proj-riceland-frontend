@@ -107,7 +107,7 @@ const routes = [
           )
       },
       {
-        path: "/editNewspost/:id",
+        path: "/editNews/:id",
         name: "Edit News",
         component: () =>
           import(
@@ -120,6 +120,30 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "demo" */ "../views/Redirectpage/EditBrands.vue"
+          )
+      },
+      {
+        path: "/editProduct/:id",
+        name: "Edit Product",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/EditProducts.vue"
+          )
+      },
+      {
+        path: "/editRelatedProduct/:id",
+        name: "Edit Related Product",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/EditRelatedProducts.vue"
+          )
+      },
+      {
+        path: "/editBrandProduct/:id",
+        name: "Edit Brand Product",
+        component: () =>
+          import(
+            /* webpackChunkName: "demo" */ "../views/Redirectpage/EditBrandProducts.vue"
           )
       },
     ]

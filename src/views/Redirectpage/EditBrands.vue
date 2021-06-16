@@ -3,7 +3,7 @@
     <base-header class="pr-8 pb-5 pt-2">
       <!-- Card stats -->
     </base-header>
-    <div :style="myStyle" id="wrapper">
+    <div :style="myStyle" id="wrapper" :data="list">
       <form class="container py-6" v-on:submit.prevent="submitForm">
         <div class="form-group text-light">
           <label>BRAND (EN)</label>
@@ -13,7 +13,8 @@
             id="brand_name_en"
             aria-describedby="product"
             placeholder="Add Title"
-            v-model="body.brand_name_en"
+            ref="brand_name_en"
+            :value="list.brand_name_en"
           />
         </div>
         <div class="form-group text-light">
@@ -24,13 +25,18 @@
             id="brand_name_ch"
             aria-describedby="product"
             placeholder="Add Title"
-            v-model="body.brand_name_ch"
+            ref="brand_name_ch"
+            :value="list.brand_name_ch"
           />
         </div>
 
         <div class="text-right">
-          <button type="cancel" class="btn btn-outline-white">CANCEL</button>
-          <button type="submit" class="btn btn-gold" >PUBLISH</button>
+          <router-link to="../settingbrands">
+            <button type="cancel" class="btn btn-outline-white">
+              CANCEL
+            </button>
+          </router-link>
+          <button type="submit" class="btn btn-gold">PUBLISH</button>
         </div>
       </form>
     </div>
@@ -41,38 +47,49 @@
 import axios from "axios";
 
 export default {
-  name: 'addBrands',
+  name: "addBrands",
   data() {
     return {
+      list: [],
       myStyle: {
         backgroundColor: "#0F1F1E",
-        height: "100%",
+        height: "100%"
       },
       body: {
-        brand_name_en: `hhhh`,
-        brand_name_ch: "ffffff"
+        brand_name_en: "",
+        brand_name_ch: ""
       }
+      //list: ,
     };
   },
   created: function() {
-    var currentUrl = window.location.pathname;
-    console.log(currentUrl)
-    let params = (new URL(currentUrl)).searchParams;
-    params.get('id')
-    console.log(params)
-    axios.get("http://localhost:3000/api/customers").then(response => {
+    console.log(this.$route.params.id);
+    const id = this.$route.params.id;
+    axios.get(`http://localhost:3000/api/brands/${id}`).then(response => {
       this.list = response.data.data;
     });
   },
   methods: {
     async submitForm() {
-      await axios.post('http://localhost:3000/api/brands', this.body)
-        .then((response) => response.data, this.$router.push("/settingbrands")) 
-        .catch((error) => {
+      this.body.brand_name_en = this.$refs["brand_name_en"].value;
+      this.body.brand_name_ch = this.$refs["brand_name_ch"].value;
+
+      // delete this.list.id;
+      // let json = JSON.stringify(this.list);
+      // console.log(json);
+      console.log(this.body);
+      const id = this.$route.params.id;
+      await axios
+        .put(`http://localhost:3000/api/brands/${id}`, this.body)
+        .then(
+          response => console.log(response.data),
+          this.$router.push("/settingbrands")
+        )
+        .catch(error => {
           console.error(error);
           return error.response.data;
         });
-    },   
+    }
   }
 };
 </script>

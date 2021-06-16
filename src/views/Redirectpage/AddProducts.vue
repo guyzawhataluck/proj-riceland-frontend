@@ -59,7 +59,6 @@
             v-model="body.pd_content_en"
           ></textarea>
         </div>
-​
         <div class="form-group text-light">
           <label for="x">ADD CONTENT (CH)</label>
           <textarea
@@ -110,7 +109,6 @@
             </div>
           </div>
         </div>
-​
         <div
           class="form-row text-light"
           v-for="(speci, index) in specification"
@@ -159,7 +157,6 @@
               CANCEL
             </button>
           </router-link>
-        
           <button type="submit" class="btn btn-gold" @click="publish">
             PUBLISH
           </button>

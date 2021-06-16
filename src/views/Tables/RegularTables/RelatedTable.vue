@@ -29,6 +29,11 @@
         </el-table-column>
 
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
+          <template v-slot="{ row }">
+          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editRelatedProduct(row.id)">
+            แก้ไข
+          </button>
+        </template>
         </el-table-column>
 
         <el-table-column min-width="170px">
@@ -99,6 +104,9 @@ export default {
         });
       }
     },
+      editRelatedProduct(id) {
+        this.$router.push(`/editRelatedProduct/${id}`)
+    },   
   },
   computed: {
       rows() {
@@ -119,7 +127,6 @@ export default {
   /* font-family: "Mitr", sans-serif; */
   font-family: "Prompt", sans-serif;
 }
-
 #del {
   color: red;
   border: 2px solid red;
@@ -133,4 +140,16 @@ export default {
   border: 2px solid red;
 }
 
+#edit {
+  color: gray;
+  border: 2px solid gray;
+  font-weight: 300;
+  transition-duration: 0.4s;
+}
+
+#edit:hover {
+  color: white;
+  background-color: gray;
+  border: 2px solid gray;
+}
 </style>

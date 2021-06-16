@@ -32,7 +32,11 @@
         </el-table-column>
 
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
-          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editNews(id)">แก้ไข</button>
+          <template v-slot="{ row }">
+          <button type="button" class="btn" id="edit" data-toggle="modal" @click="editNews(row.id)">
+            แก้ไข
+          </button>
+        </template>
         </el-table-column>
 
         <el-table-column min-width="170px">
@@ -103,6 +107,9 @@ export default {
         });
       }
     },
+      editNews(id) {
+        this.$router.push(`/editNews/${id}`)
+    }, 
   },
   computed: {
       rows() {
