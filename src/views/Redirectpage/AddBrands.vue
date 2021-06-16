@@ -29,7 +29,7 @@
         </div>
 
         <div class="text-right">
-          <router-link to="../settingbrands">
+          <router-link to="../settingbrands" class="pr-2">
             <button type="cancel" class="btn btn-outline-white">
               CANCEL
             </button>
