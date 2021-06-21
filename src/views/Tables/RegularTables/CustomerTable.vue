@@ -1,7 +1,7 @@
 <template>
   <div class="overflow-auto" id="table">
-    <div class="pb-2">
-      <input placeholder="Search" type="text" v-model="searchQuery" />
+    <div>
+      <input class="form-control" placeholder="Search" type="text" v-model="searchQuery" />
     </div>
     <b-card no-body>
       <el-table
@@ -19,13 +19,13 @@
         >
         </el-table-column>
 
-        <el-table-column label="Name" prop="name" min-width="200px">
+        <el-table-column label="Name" prop="name" min-width="200px" :formatter="nullname">
         </el-table-column>
 
-        <el-table-column label="Email" min-width="300px" prop="email">
+        <el-table-column label="Email" min-width="300px" prop="email" :formatter="nullemail">
         </el-table-column>
 
-        <el-table-column label="Telephone" prop="tel" min-width="170px">
+        <el-table-column label="Telephone" prop="tel" min-width="170px" :formatter="nulltel">
         </el-table-column>
 
         <el-table-column
@@ -52,10 +52,10 @@
         >
         </el-table-column>
 
-        <el-table-column label="Destination" prop="dest" min-width="250px">
+        <el-table-column label="Destination" prop="dest" min-width="250px" :formatter="nulldest">
         </el-table-column>
 
-        <el-table-column label="Remark" prop="remark" min-width="200px">
+        <el-table-column label="Remark" prop="remark" min-width="200px" :formatter="nullremark">
         </el-table-column>
 
         <el-table-column
@@ -144,6 +144,46 @@ export default {
         return "รอดำเนินการ";
       }
     },
+    nulltel(row, column) {
+      if (row.tel === null || row.tel === "") {
+        return "-";
+      }
+      else {
+        return row.tel;
+      }
+    },
+    nullname(row, column) {
+      if (row.name === null || row.name === "") {
+        return "-";
+      }
+      else {
+        return row.name;
+      }
+    },
+    nullemail(row, column) {
+      if (row.email === null || row.email === "") {
+        return "-";
+      }
+      else {
+        return row.email;
+      }
+    },
+    nulldest(row, column) {
+      if (row.dest === null || row.dest === "") {
+        return "-";
+      }
+      else {
+        return row.dest;
+      }
+    },
+    nullremark(row, column) {
+      if (row.remark === null || row.remark === "") {
+        return "-";
+      }
+      else {
+        return row.remark;
+      }
+    },
     indexMethod(index) {
       return (this.currentPage - 1) * this.intPageSize + index + 1;
     },
@@ -182,6 +222,9 @@ export default {
         }
         return productName.toString();
       }
+      else{
+        return "-"
+      }
     },
     displayMatBag(row) {
       const MatBag = [];
@@ -194,6 +237,9 @@ export default {
         }
         return MatBag.toString();
       }
+      else{
+        return "-"
+      }
     },
     displaySize(row) {
       const Size = [];
@@ -204,6 +250,9 @@ export default {
           Size.push(size);
         }
         return Size.toString();
+      }
+      else{
+        return "-"
       }
     },
     setPage(val) {
@@ -300,5 +349,11 @@ export default {
   color: white;
   background-color: gray;
   border: 2px solid gray;
+}
+input{
+  border-width: 0;
+}
+.form-control{
+  margin-bottom: 30px;
 }
 </style>

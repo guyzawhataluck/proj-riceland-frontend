@@ -15,20 +15,22 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="Title En" prop="pd_title_en" min-width="200px">
+        <el-table-column label="Title En" prop="pd_title_en" min-width="200px" :formatter="nullpd_title_en">
         </el-table-column>
-        <el-table-column label="Title Ch" prop="pd_title_ch" min-width="200px">
+        <el-table-column label="Title Ch" prop="pd_title_ch" min-width="200px" :formatter="nullpd_title_ch">
         </el-table-column>
         <el-table-column
           label="Content En"
           prop="pd_content_en"
           min-width="500px"
+          :formatter="nullpd_content_en"
         >
         </el-table-column>
         <el-table-column
           label="Content Ch"
           prop="pd_content_ch"
           min-width="500px"
+          :formatter="nullpd_content_ch"
         >
         </el-table-column>
 
@@ -110,6 +112,38 @@ export default {
     },
     editProduct(id) {
         this.$router.push(`/editProduct/${id}`)
+    },
+    nullpd_title_en(row, column) {
+      if (row.pd_title_en === null || row.pd_title_en === "") {
+        return "-";
+      }
+      else {
+        return row.pd_title_en;
+      }
+    },
+    nullpd_title_ch(row, column) {
+      if (row.pd_title_ch === null || row.pd_title_ch === "") {
+        return "-";
+      }
+      else {
+        return row.pd_title_ch;
+      }
+    },
+    nullpd_content_en(row, column) {
+      if (row.pd_content_en === null || row.pd_content_en === "") {
+        return "-";
+      }
+      else {
+        return row.pd_content_en;
+      }
+    },
+    nullpd_content_ch(row, column) {
+      if (row.pd_content_ch === null || row.pd_content_ch === "") {
+        return "-";
+      }
+      else {
+        return row.pd_content_ch;
+      }
     },   
   },
   computed: {

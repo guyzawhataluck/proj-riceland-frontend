@@ -16,22 +16,22 @@
         <el-table-column label="Brand Ch" prop="brand.brand_name_ch" min-width="200px">
         </el-table-column>
 
-        <el-table-column label="Image" min-width="150px" prop="pd_img_url">
+        <el-table-column label="Image" min-width="150px" prop="pd_img_url" >
           <template slot-scope="scope">
             <img :src="scope.row.pd_img_url" width="61px" height="61px"/>
           </template>
         </el-table-column>
 
-        <el-table-column label="Title En" prop="pd_title_en" min-width="200px">
+        <el-table-column label="Title En" prop="pd_title_en" min-width="200px" :formatter="nullpd_title_en">
         </el-table-column>
 
-        <el-table-column label="Title Ch" prop="pd_title_ch" min-width="200px">
+        <el-table-column label="Title Ch" prop="pd_title_ch" min-width="200px" :formatter="nullpd_title_ch">
         </el-table-column>
 
-        <el-table-column label="Content En" prop="pd_content_en" min-width="200px">
+        <el-table-column label="Content En" prop="pd_content_en" min-width="200px" :formatter="nullpd_content_en">
         </el-table-column>
 
-        <el-table-column label="Content Ch" prop="pd_content_ch" min-width="200px">
+        <el-table-column label="Content Ch" prop="pd_content_ch" min-width="200px" :formatter="nullpd_content_ch">
         </el-table-column>
         <el-table-column label="จัดการ" prop="edit" min-width="200px">
           <template v-slot="{ row }">
@@ -84,6 +84,7 @@ export default {
   created: function() {
     axios.get('http://localhost:3000/api/brandProducts').then((response) => {
       this.list = response.data.data
+      
     })
   },
   methods: {
@@ -112,7 +113,46 @@ export default {
     editBrandProduct(id) {
         this.$router.push(`/editBrandProduct/${id}`)
     },   
- 
+    // nullimg(row, column) {
+    //   if (row.pd_img_url === null) {
+    //     return "-";
+    //   }
+    //   else {
+    //     return row.pd_img_url;
+    //   }
+    // },
+    nullpd_title_en(row, column) {
+      if (row.pd_title_en === null || row.pd_title_en === "") {
+        return "-";
+      }
+      else {
+        return row.pd_title_en;
+      }
+    },
+    nullpd_title_ch(row, column) {
+      if (row.pd_title_ch === null || row.pd_title_ch === "") {
+        return "-";
+      }
+      else {
+        return row.pd_title_ch;
+      }
+    },
+    nullpd_content_en(row, column) {
+      if (row.pd_content_en === null || row.pd_content_en === "") {
+        return "-";
+      }
+      else {
+        return row.pd_content_en;
+      }
+    },
+    nullpd_content_ch(row, column) {
+      if (row.pd_content_ch === null || row.pd_content_ch === "") {
+        return "-";
+      }
+      else {
+        return row.pd_content_ch;
+      }
+    },  
   },
   computed: {
       rows() {

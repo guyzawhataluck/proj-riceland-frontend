@@ -1,6 +1,6 @@
 <template>
   <div id="table">
-    <div style="width:80vw">
+    <!-- <div style="width:80vw">
       <button
         style="float:right"
         type="button"
@@ -11,13 +11,14 @@
       >
         refresh
       </button>
-    </div>
+    </div> -->
 
     <b-card no-body>
       <el-table
         class="table-responsive table"
         header-row-class-name="thead-light"
         :data="pagedTableData"
+        :row-class-name="tableRowClassName"
       >
         <el-table-column
           label="ลำดับ"
@@ -27,7 +28,13 @@
         >
         </el-table-column>
 
-        <el-table-column label="Date" min-width="200px" prop="news_date">
+        <el-table-column 
+        label="Date" 
+        min-width="200px" 
+        prop="news_date"
+        
+        v-slot="{ row }">
+        <label>{{ format_date(row.news_date) }}</label>
         </el-table-column>
 
         <el-table-column label="Image" min-width="150px" prop="news_img_url">
@@ -40,6 +47,7 @@
           label="Title En"
           prop="news_title_en"
           min-width="200px"
+          :formatter="nullnews_title_en"
         >
         </el-table-column>
 
@@ -47,6 +55,7 @@
           label="Title Ch"
           prop="news_title_ch"
           min-width="200px"
+          :formatter="nullnews_title_ch"
         >
         </el-table-column>
 
@@ -54,6 +63,7 @@
           label="Content En"
           prop="news_content_en"
           min-width="200px"
+          :formatter="nullnews_content_en"
         >
         </el-table-column>
 
@@ -61,6 +71,7 @@
           label="Content Ch"
           prop="news_content_ch"
           min-width="200px"
+          :formatter="nullnews_content_ch"
         >
         </el-table-column>
 
@@ -105,6 +116,7 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 import axios from "axios";
 import { Table, TableColumn } from "element-ui";
 export default {
@@ -147,7 +159,47 @@ export default {
     },
     editNews(id) {
       this.$router.push(`/editNews/${id}`);
-    }
+    },
+    format_date(value) {
+      if (value) {
+        return moment(String(value)).format("YYYY-MM-DD");
+      }
+      else if (value === null || value === "") {
+        return "-";
+      }
+    },
+    nullnews_title_en(row, column) {
+      if (row.news_title_en === null || row.news_title_en === "") {
+        return "-";
+      }
+      else {
+        return row.news_title_en;
+      }
+    },
+    nullnews_title_ch(row, column) {
+      if (row.news_title_ch === null || row.news_title_ch === "") {
+        return "-";
+      }
+      else {
+        return row.news_title_ch;
+      }
+    },
+    nullnews_content_en(row, column) {
+      if (row.news_content_en === null || row.news_content_en === "") {
+        return "-";
+      }
+      else {
+        return row.news_content_en;
+      }
+    },
+    nullnews_content_ch(row, column) {
+      if (row.news_content_ch === null || row.news_content_ch === "") {
+        return "-";
+      }
+      else {
+        return row.news_content_ch;
+      }
+    },  
   },
   computed: {
     rows() {

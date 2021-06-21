@@ -10,10 +10,10 @@
         <el-table-column label="ลำดับ" :index="indexMethod" type="index" width="100px">
         </el-table-column>
 
-        <el-table-column label="Brand En" prop="brand_name_en" min-width="200px">
+        <el-table-column label="Brand En" prop="brand_name_en" min-width="200px" :formatter="nullbrand_name_en">
         </el-table-column>
 
-        <el-table-column label="Brand Ch" prop="brand_name_ch" min-width="200px">
+        <el-table-column label="Brand Ch" prop="brand_name_ch" min-width="200px" :formatter="nullbrand_name_ch">
         </el-table-column>
         <el-table-column
           label="จัดการ"
@@ -99,7 +99,23 @@ export default {
             this.re();
         });
       }
-    },   
+    },
+    nullbrand_name_en(row, column) {
+      if (row.brand_name_en === null || row.brand_name_en === "") {
+        return "-";
+      }
+      else {
+        return row.brand_name_en;
+      }
+    },
+    nullbrand_name_ch(row, column) {
+      if (row.brand_name_ch === null || row.brand_name_ch === "") {
+        return "-";
+      }
+      else {
+        return row.brand_name_ch;
+      }
+    },     
   },
   computed: {
       rows() {

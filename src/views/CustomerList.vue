@@ -5,7 +5,7 @@
     </base-header>
     
     <b-container fluid class="mt--7 pt-md-8">
-      <div class="pb-2">
+      <!-- <div class="pb-2">
         <b-form-group>
           <b-input-group class="input-group-alternative input-group-merge">
             <b-form-input placeholder="Search" type="text"> </b-form-input>
@@ -15,7 +15,7 @@
             </div>
           </b-input-group>
         </b-form-group>
-      </div>
+      </div> -->
       <b-row>
         <b-col>
           <customer-table />

@@ -31,10 +31,9 @@
             style="border-radius: 16px"
             id="brandSelection"
             v-model="body.brand_name_en"
-            @click="callSettingBrands()"
             :data="brand"
           >
-            <option v-for="(item, key) in brand" :value="key" :key="key">
+            <option v-for="(item, key) in brand" :value="item" :key="key">
               {{item.brand_name_en}}
             </option>
           </select>
@@ -82,7 +81,11 @@
           ></textarea>
         </div>
         <div class="text-right">
-          <button type="cancel" class="btn btn-outline-white">CANCEL</button>
+          <router-link to="../brands" class="pr-2">
+            <button type="cancel" class="btn btn-outline-white">
+              CANCEL
+            </button>
+          </router-link>
           <button type="submit" class="btn btn-gold">PUBLISH</button>
         </div>
       </form>
@@ -111,6 +114,9 @@ export default {
       brand: [],
     };
   },
+  created: function() {
+      this.callSettingBrands();
+  },
   methods: {
     previewImage: function(event) {
       // Reference to the DOM input element
@@ -132,7 +138,8 @@ export default {
     },
     async submitForm() {
       this.body.pd_img_url = this.imageData;
-      console.log(this.body.brand_name_en)
+      this.body.brand_name_en = this.body.brand_name_en.brand_name_en
+      console.log(this.body)
       await axios
         .post("http://localhost:3000/api/brandProducts", this.body)
         .then(
